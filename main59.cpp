@@ -5,13 +5,33 @@
 using namespace std;
 
 template<typename Ty1, typename Ty2>
-void DebugMap(map<Ty1, Ty2>& data)
+void DebugMap(map<Ty1, Ty2>& mm)
 {
-    for (auto [key, value] : data)
+    cout << "Debug Map ";
+    for (auto data : mm)
     {
-        cout << key << " : " << value << endl;
+        cout << data.first << " : " << data.second << endl;
     }
+    cout << "Debug end ---- " << endl;
 }
+
+template<typename Frist, typename Second>
+void DebugPair(pair<Frist, Second>& data)
+{
+    cout << "Debug Pair ";
+    cout << data.first << " : " << data.second << endl;
+}
+
+
+// 46 remove 0
+// 868 remove 0
+// 525 remove 0
+// 871 remove 0
+// 837 remove 0
+// 866 ::::::: 1
+// 866 remove 0
+// 850 remove 0
+
 
 class MaxQueue {
 public:
@@ -20,7 +40,7 @@ public:
     }
     
     int max_value() {
-        auto iter = --max.end();
+        auto iter = max.rbegin();
         return iter->first;
     }
     
@@ -35,13 +55,15 @@ public:
         else {
             int ret = q.front();
             q.pop();
-            auto iter = --max.end();
+            auto iter = max.rbegin();
+            DebugPair(*iter);
+            cout << ret << " ::::::: " << iter->first << endl;
             if (ret == iter->first)
             {
                 iter->second -= 1;
                 if (iter->second == 0)
                 {
-                    max.erase(iter);
+                    max.erase(ret);
                 }
             }
             return ret;
@@ -70,12 +92,12 @@ public:
 
 int main() {
     MaxQueue sol;
-    sol.push_back(1);
-    sol.push_back(2);
-    DebugMap(sol.max);
-    cout << sol.max_value() << endl;
+    sol.push_back(11);
+    sol.push_back(4);
+    // DebugMap(sol.max);
     sol.pop_front();
-    DebugMap(sol.max);
+    // sol.pop_front();
+    // DebugMap(sol.max);
     cout << sol.max_value() << endl;
     return 0;
 }

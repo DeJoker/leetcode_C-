@@ -1,6 +1,7 @@
 #include <iostream>
 #include <vector>
 using namespace std;
+ #include <unistd.h>
 
 template<typename Frist, typename Second>
 void DebugPair(pair<Frist, Second>& data)
@@ -11,10 +12,10 @@ void DebugPair(pair<Frist, Second>& data)
 template<typename Ty>
 void DebugPlanarVector(vector<vector<Ty>>& data)
 {
-    for(auto parallel : data)
+    for (auto parallel : data)
     {
         cout << "[";
-        for(auto val : parallel)
+        for (auto val : parallel)
         {
             cout << val << ",";
         }
@@ -22,60 +23,75 @@ void DebugPlanarVector(vector<vector<Ty>>& data)
     }
 }
 
-class Solution {
+class Solution
+{
 public:
-    pair<int,int> caculate(int mid, int num)
+    pair<int, int> caculate(int mid, int num)
     {
+        if (mid < num)
+            return make_pair(-1, -1);
         if (num % 2 == 1)
             return make_pair(num*mid, num*mid);
         else
-            return make_pair(num*mid-1, num*mid+1);
+            return make_pair(num*(2*mid - 1) / 2, num*(2*mid + 1) / 2);
     }
 
     vector<int> GetVector(int mid, int num, int direct)
     {
         vector<int> ret;
-        int start(0),end(0);
-        if (direct == -1) { // 左 中
-            start = mid - num/2;
-        } else if (direct == 1) { // 右
-            start = mid - num/2 -1;
+        int start(0), end(0);
+        if (direct == -1)
+        { // 左 中
+            start = mid - num / 2;
+        }
+        else if (direct == 1)
+        { // 右
+            start = mid - num / 2 + 1;
         }
 
         end = start + num;
-        for(;start<end;++start)
+        for (; start < end; ++start)
         {
             ret.push_back(start);
         }
         return ret;
     }
 
-    vector<vector<int>> findContinuousSequence(int target) {
+    vector<vector<int>> findContinuousSequence(int target)
+    {
         vector<vector<int>> ret;
         int num(1);
-        while(true)
+        while (true)
         {
             ++num;
-            int mid = target/num;
+            int mid = (target+1) / num;
             auto calcu = caculate(mid, num);
             DebugPair(calcu);
-            if(calcu.first == target) {
+            if (calcu.first == target)
+            {
                 ret.push_back(GetVector(mid, num, -1));
-            } else if (calcu.second == target) {
-                ret.push_back(GetVector(mid, num, 1));
-            } else if (calcu.second > target && calcu.first < target) {
-                continue;
             }
-            break;
+            else if (calcu.second == target)
+            {
+                ret.push_back(GetVector(mid, num, 1));
+            }
+            else if (calcu.second < target || calcu.first > target)
+            {
+                break;
+            }
+            //continue;
         }
 
         return ret;
     }
 };
 
-int main() {
+int main()
+{
     Solution sol;
-    auto vec = sol.findContinuousSequence(9);
+    auto vec = sol.findContinuousSequence(15);
     DebugPlanarVector(vec);
+    while(1)
+        sleep(5);
     return 0;
 }
