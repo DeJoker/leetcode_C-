@@ -1,3 +1,27 @@
+#include <iostream>
+#include <vector>
+using namespace std;
+
+template<typename Frist, typename Second>
+void DebugPair(pair<Frist, Second>& data)
+{
+    cout << data.first << " : " << data.second << endl;
+}
+
+template<typename Ty>
+void DebugPlanarVector(vector<vector<Ty>>& data)
+{
+    for(auto parallel : data)
+    {
+        cout << "[";
+        for(auto val : parallel)
+        {
+            cout << val << ",";
+        }
+        cout << "]" << endl;
+    }
+}
+
 class Solution {
 public:
     pair<int,int> caculate(int mid, int num)
@@ -18,8 +42,8 @@ public:
             start = mid - num/2 -1;
         }
 
-        // end = start + num;
-        for(;start<start+num;++start)
+        end = start + num;
+        for(;start<end;++start)
         {
             ret.push_back(start);
         }
@@ -34,6 +58,7 @@ public:
             ++num;
             int mid = target/num;
             auto calcu = caculate(mid, num);
+            DebugPair(calcu);
             if(calcu.first == target) {
                 ret.push_back(GetVector(mid, num, -1));
             } else if (calcu.second == target) {
@@ -50,6 +75,7 @@ public:
 
 int main() {
     Solution sol;
-    sol.findContinuousSequence(9);
-    
+    auto vec = sol.findContinuousSequence(9);
+    DebugPlanarVector(vec);
+    return 0;
 }
