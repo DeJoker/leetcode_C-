@@ -27,8 +27,8 @@ public:
         grid[pos.first][pos.second] = 0;
         int area = 1;
         for(auto direct : _directs) {
-            
-            area += dps(grid, direct);
+            pair<int, int> next = {pos.first+direct.first, pos.second+direct.second};
+            area += dps(grid, next);
         }
         return area;
     }
