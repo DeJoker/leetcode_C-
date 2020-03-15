@@ -6,7 +6,7 @@
 #include <map>
 using namespace std;
 
-class Solution {
+class Solution2 {
 public:
     // void change1(vector<vector<int>>& grid, int i, int j)
     // {
@@ -86,21 +86,19 @@ public:
         {
             ++count;
             // 考虑用出循环后的good数量的变动判断是否该退出
-            bool cant(false);
+            int size = good.size();
             for(auto pos : bad)
             {
-                // cant 应该是全部位置都不行才退出
-                cant = changeAndpop(bad, good, pos);
+                // 调试发现因为bad和good会在循环中发生改变因此该方案不可取
+                changeAndpop(bad, good, pos);
                 if(good.empty())
                     return count;
                 // 同时也要想到怎么会一个条件用两次呢
             }
-            if(count == 10)
-                // return bad.size(); // 5
-                return good.size(); // 2
+            if (size == good.size())
+                return -1;
         }
-        if (cant)
-            return -1;
+        
         return count;
     }
 };
