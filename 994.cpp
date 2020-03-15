@@ -81,18 +81,19 @@ public:
             }
         }
 
-        bool cant(false);
         int count(-1);
         while(true)
         {
             ++count;
+            // 考虑用出循环后的good数量的变动判断是否该退出
+            bool cant(false);
             for(auto pos : bad)
             {
-                cant = !changeAndpop(bad, good, pos);
+                // cant 应该是全部位置都不行才退出
+                cant = changeAndpop(bad, good, pos);
                 if(good.empty())
                     return count;
-                if(cant)
-                    break;
+                // 同时也要想到怎么会一个条件用两次呢
             }
             if(count == 10)
                 // return bad.size(); // 5
@@ -107,4 +108,8 @@ public:
 
 int main() {
     Solution sol;
+    vector<vector<int>> inital = 
+    {{2,1,1},{1,1,0},{0,1,1}};
+    int cc = sol.orangesRotting(inital);
+    cout << cc << endl;
 }
