@@ -23,7 +23,7 @@ public:
         traverse.push({root,1});
 
         int maxdepth(1);
-        while(traverse.empty()) {
+        while(!traverse.empty()) {
             ViewType cur = traverse.front(); traverse.pop();
 
             TreeNode* node = cur.first;
