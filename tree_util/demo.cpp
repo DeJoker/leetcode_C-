@@ -9,8 +9,8 @@ int main() {
     TreeNode* root = CreateTreeNode(line2);
 
     //right
-    string line("[3,9,20,null,null,15,7]");
-    TreeNode* root2 = stringToTreeNode(line);
+    // string line("[3,9,20,null,null,15,7]");
+    // TreeNode* root2 = stringToTreeNode(line);
 
     prettyPrintTree(root);
 }

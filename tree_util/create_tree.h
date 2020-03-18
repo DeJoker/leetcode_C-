@@ -50,6 +50,7 @@ inline vector<std::string> tokenize_str(const std::string & str, const std::stri
 inline TreeNode* createNode(string integer)
 {
     TreeNode* node = new TreeNode(std::atoi(integer.c_str()));
+    // cout << node->val << endl;
     return node;
 }
 
@@ -82,7 +83,8 @@ TreeNode* CreateTreeNode(string aa)
     TreeNode* root = createNode(vec[0]);
     traverse.push(root);
 
-    for (int i=1; i<vec.size();)
+    // 漏写了一个++i，是在输出过程中才发现的问题
+    for (int i=1; i<vec.size(); ++i)
     {
         TreeNode* node = traverse.front(); traverse.pop();
         if (vec[i] == "null") {
@@ -106,6 +108,8 @@ TreeNode* CreateTreeNode(string aa)
             traverse.push(newNode);
         }
     }
+    // 1. 没写返回值
+    return root;
 }
 
 
