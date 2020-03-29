@@ -17,18 +17,21 @@ public:
         
         int maxD = -1;
         while (!visit.empty()) {
-            auto& now = visit.front(); visit.pop();
+            // 绝了，没事不要用引用，不然这里会有释放问题？？？神奇
+            auto now = visit.front(); visit.pop();
             for(int i=0; i<4; ++i) {
                 int nX = now.first+dx[i];
                 int nY = now.second+dy[i];
                 if (!(nX>=0 && nX<size && nY>=0 && nY<size)) continue;
-                grid[nX][nY] = grid[now.first][now.second]+1;
-                visit.push(make_pair(nX, nY));
-                maxD = max(maxD, grid[nX][nY]);
+                if (grid[nX][nY] == 0) {
+                    grid[nX][nY] = grid[now.first][now.second]+1;
+                    visit.push(make_pair(nX, nY));
+                    maxD = max(maxD, grid[nX][nY]);
+                }
             }
         }
 
-        return maxD;
+        return maxD==-1 ? -1 : (maxD-1);
     }
 };
 
@@ -39,7 +42,7 @@ int main() {
     }
 
     Solution sol;
-    vector<vector<int>> inland = {{1,0,1},{0,0,0},{1,0,1}};
+    vector<vector<int>> inland = {{1,0,0,0,0,1,0,0,0,1},{1,1,0,1,1,1,0,1,1,0},{0,1,1,0,1,0,0,1,0,0},{1,0,1,0,1,0,0,0,0,0},{0,1,0,0,0,1,1,0,1,1},{0,0,1,0,0,1,0,1,0,1},{0,0,0,1,1,1,1,0,0,1},{0,1,0,0,1,0,0,1,0,0},{0,0,0,0,0,1,1,1,0,0},{1,1,0,1,1,1,1,1,0,0}};
     cout << sol.maxDistance(inland);
 
 
