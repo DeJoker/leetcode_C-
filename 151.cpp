@@ -19,9 +19,9 @@ public:
                 // 如果不相等则应该不使用erase，多出来的空格才删除
                 if(k != j)
                     // 注意要删除的是2个或以上，第一个空格不删
-                    s.erase(k+1, j+1);
+                    s.erase(k+1, j-k);
                 // 下一个reverse应该是连续单次的单词
-                i=j+1;
+                i=k+1;
             }
         }
         reverse(s.begin()+i, s.end());
