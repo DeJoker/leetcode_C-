@@ -29,7 +29,7 @@ public:
             one.pop();
             for(int i=0; i<4; i++) {
                 int nx = x+dx[i], ny = y+dy[i];
-                if(nx<0 || nx>=m || ny<0 || ny>=n || seen[x][y]) continue;
+                if(nx<0 || nx>=m || ny<0 || ny>=n || seen[nx][ny]) continue;
                 dist[nx][ny] = dist[x][y]+1;
                 one.push(make_pair(nx, ny));
                 seen[nx][ny] = true;
