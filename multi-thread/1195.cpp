@@ -8,7 +8,7 @@ private:
 public:
     FizzBuzz(int n) {
         this->n = n;
-        _i=0;
+        _i=1;
     }
 
     // printFizz() outputs "fizz".
@@ -18,6 +18,7 @@ public:
             _cv3.wait(lk, [&](){ return _i>n || _i%3==0; });
             if (_i>n) break;
             printFizz();
+            ++_i;
         }
     }
 
@@ -28,6 +29,7 @@ public:
             _cv5.wait(lk, [&](){ return _i>n || _i%5==0; });
             if (_i>n) break;
             printBuzz();
+            ++_i;
         }
     }
 
@@ -39,21 +41,23 @@ public:
             _cv15.wait(lk, [&](){ return _i>n || _i%15==0; });
             if (_i>n) break;
             printFizzBuzz();
+            ++_i;
         }
     }
 
     // printNumber(x) outputs "x", where x is an integer.
     void number(function<void(int)> printNumber) {
-        for(_i=1; _i<=n; ++_i) {
+        for(_i=1; _i<=n; ) {
             std::unique_lock<std::mutex> lk(_m);
             if (_i%15 == 0) {
-                _cv15.notify_all();
+                _cv15.notify_one();
             } else if(_i%3 == 0) {
-                _cv3.notify_all();
+                _cv3.notify_one();
             } else if(_i%5 == 0) {
-                _cv5.notify_all();
+                _cv5.notify_one();
             } else {
                 printNumber(_i);
+                ++_i;
             }
         }
         _cv3.notify_one();
@@ -64,7 +68,7 @@ public:
 
 
 int main() {
-    FizzBuzz b(20);
+    FizzBuzz b(15);
     auto p1 = [](int i){ cout << i << " "; };
     auto p2 = [](){ cout << "fizz" << " "; };
     auto p3 = [](){ cout << "buzz" << " "; };
