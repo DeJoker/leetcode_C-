@@ -35,6 +35,6 @@ public:
 
 int main() {
     Solution sol;
-    vector<int> vec = {197, 130, 1};
+    vector<int> vec = {235, 140, 4};
     cout << sol.validUtf8(vec);
 }

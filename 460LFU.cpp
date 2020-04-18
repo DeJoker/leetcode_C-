@@ -15,8 +15,8 @@ public:
     LFUCache(int _capacity) {
         minfreq = 0;
         capacity = _capacity;
-        key_table.clear();
-        freq_table.clear();
+        // key_table.clear();
+        // freq_table.clear();
     }
     
     int get(int key) {
@@ -28,7 +28,7 @@ public:
         freq_table[freq].erase(node);
         // 如果当前链表为空，我们需要在哈希表中删除，且更新minFreq
         if (freq_table[freq].size() == 0) {
-            freq_table.erase(freq);
+            // freq_table.erase(freq);
             if (minfreq == freq) minfreq += 1;
         }
         // 插入到 freq + 1 中
@@ -46,10 +46,11 @@ public:
                 // 通过 minFreq 拿到 freq_table[minFreq] 链表的末尾节点
                 auto it2 = freq_table[minfreq].back();
                 key_table.erase(it2.key);
-                freq_table[minfreq].pop_back();
-                if (freq_table[minfreq].size() == 0) {
-                    freq_table.erase(minfreq);
-                }
+                if (!freq_table[minfreq].empty())
+                    freq_table[minfreq].pop_back();
+                // if (freq_table[minfreq].size() == 0) {
+                //     freq_table.erase(minfreq);
+                // }
             } 
             freq_table[1].push_front(Node(key, value, 1));
             key_table[key] = freq_table[1].begin();
@@ -71,7 +72,23 @@ public:
 
 
 int main() {
+
+    unordered_map<int, list<int>> aaa;
+    aaa[3] = list<int>{6};
+    aaa[3].pop_back();
+    cout << aaa[3].back() << endl;
+    aaa[3].clear();
+    cout << aaa[3].back() << endl;
+
     LFUCache cache(2);
+
+    // cache.put(1, 1);
+    // cache.put(2, 2);
+    // cout << cache.get(1) << endl;       // 返回 1
+    // cache.put(3, 3);    // 去除 key 2
+    // cout << cache.get(2) << endl;       // 返回 -1 (未找到key 2)
+    // cout << cache.get(3) << endl;       // 返回 3
+
 
     cache.put(1, 1);
     cache.put(2, 2);

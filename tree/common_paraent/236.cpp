@@ -6,21 +6,33 @@ public:
     TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {
         if(!root) return nullptr;
 
-        stack<TreeNode*> path,findl,findr;
-        TreeNode* cur = root;
+        stack<TreeNode*> path;
+        // vector<TreeNode*> findl,findr;
+        TreeNode* cur = root, *common;
+        bool findOne(false);
         while(cur || !path.empty()) {
-            if (cur == p) {
-                findl = path;
-            }
-            if (cur == q) {
-                findr = path;
-            }
-            if (findl.empty() && !findr.empty()) {
-                break;
-            }
-
             if(cur) {
                 path.push(cur);
+
+                //很奇怪，本地debug的时候，cur有时不在栈中？？
+                // if (cur == p) {
+                //     findl = {path.begin(), path.end()};
+                // }
+                // if (cur == q) {
+                //     findr = path;
+                // }
+                // if (findl.empty() && !findr.empty()) {
+                //     break;
+                // }
+
+                if (!findOne && cur == p) {
+                    findOne = true;
+                    common = p;
+                }
+                if (!findOne && cur == q) {
+                    findr = path;
+                }
+
                 cur = cur->left;
                 // path.push(cur->left); // 之前居然写成了直接push？？？
             } else {
@@ -41,6 +53,9 @@ public:
 };
 
 int main() {
+    auto root = stringToTreeNode("[3,5,1,6,2,0,8,null,null,7,4]");
+    Solution sol;
+    sol.lowestCommonAncestor(root, root->left, root->right);
     return 0;
 }
 

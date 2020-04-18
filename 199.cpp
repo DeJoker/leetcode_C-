@@ -49,6 +49,9 @@ public:
 int main() {
     TreeNode* root = stringToTreeNode("[1,2,3,null,5,null]");
 
+    // cout << sizeof(root) << endl;
+    // cout << sizeof(void*) << endl;
+    
     Solution sol;
     auto vec = sol.rightSideView(root);
     DebugVecor(vec);

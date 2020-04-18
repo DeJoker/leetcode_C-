@@ -17,7 +17,9 @@ public:
                 else
                     iter = N.begin();
             }
-            N.erase(iter);
+            // 保证迭代器始终有效的情况下删除？？
+            N.erase(iter++);
+            --iter;
         }
         return *N.begin();
     }

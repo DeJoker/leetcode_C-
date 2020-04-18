@@ -4,17 +4,6 @@
 #include <algorithm>
 using namespace std;
 
-template<typename Ty1, typename Ty2>
-void DebugVecor(map<Ty1, Ty2>& mm)
-{
-    cout << "Debug Map ";
-    for (auto data : mm)
-    {
-        cout << data.first << " : " << data.second << endl;
-    }
-    cout << "Debug end ---- " << endl;
-}
-
 class Solution {
 public:
     int coinChange(vector<int>& coins, int amount) {

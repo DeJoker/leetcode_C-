@@ -3,12 +3,22 @@
 
 #include <iostream>
 #include <vector>
+#include <list>
+#include <set>
 #include <map>
+#include <queue>
+#include <deque>
+#include <stack>
+
+#include <unordered_map>
+
 #include <algorithm>
 using namespace std;
 
+#include <cmath>
+
 template<typename Ty>
-void DebugVecor(vector<Ty>& mm)
+void DebugVecor(vector<Ty> mm)
 {
     cout << "Vector ";
     for (auto data : mm)
@@ -19,7 +29,7 @@ void DebugVecor(vector<Ty>& mm)
 }
 
 template<typename Ty>
-void DebugPlanarVector(vector<vector<Ty>>& data)
+void DebugPlanarVector(vector<vector<Ty>> data)
 {
     for (auto parallel : data)
     {
@@ -33,14 +43,14 @@ void DebugPlanarVector(vector<vector<Ty>>& data)
 }
 
 template<typename Frist, typename Second>
-void DebugPair(pair<Frist, Second>& data)
+void DebugPair(pair<Frist, Second> data)
 {
     cout << data.first << " : " << data.second << endl;
 }
 
 
 template<typename Ty1, typename Ty2>
-void DebugMap(map<Ty1, Ty2>& mm)
+void DebugMap(map<Ty1, Ty2> mm)
 {
     cout << "Debug Map ";
     for (auto data : mm)

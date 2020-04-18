@@ -8,7 +8,7 @@ public:
         int i = l - 1;
         for (int j = l; j <= r - 1; ++j) {
             if (nums[j] <= pivot) {
-                i = i + 1;
+                ++i;
                 swap(nums[i], nums[j]);
             }
         }
