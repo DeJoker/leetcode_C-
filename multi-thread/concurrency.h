@@ -4,9 +4,11 @@
 #include <mutex>
 #include <condition_variable>
 #include <memory>
-#include <functional>
 #include <thread>
 
+#include <atomic>
+
+#include <functional>
 #include <iostream>
 
 using namespace std;

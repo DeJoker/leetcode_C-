@@ -41,6 +41,48 @@ public:
 };
 
 
+class H2O2 {
+private:
+    std::atomic<int> hy_count_;
+    std::atomic<int> ox_count_;
+public:
+    H2O2() : hy_count_(0), ox_count_(0) {}
+
+    void hydrogen(std::function<void()> releaseHydrogen) {
+        int expected1 = 0;
+        int expected2 = 1;
+
+        while (!hy_count_.compare_exchange_weak(expected1, 1) &&
+            !hy_count_.compare_exchange_weak(expected2, 2)) {
+            expected1 = 0;
+            expected2 = 1;
+            std::this_thread::yield();
+        }
+        releaseHydrogen();
+
+        if (hy_count_== 2 && ox_count_ == 1) {
+            hy_count_ = 0;
+            ox_count_ = 0;
+        }
+    }
+
+    void oxygen(std::function<void()> releaseOxygen) {
+        int expected = 0;
+        while (!ox_count_.compare_exchange_weak(expected, 1)) {
+            expected = 0;
+            std::this_thread::yield();
+        }
+        releaseOxygen();
+
+        if (hy_count_ == 2) {
+            hy_count_ = 0;
+            ox_count_ = 0;
+        }
+    }
+
+
+};
+
 
 
 const int now(6);
@@ -48,13 +90,13 @@ int main() {
     auto f1 = [](){ cout << "H"; };
     auto f2 = [](){ cout << "O"; };
     H2O o;
-    thread t1(&H2O::hydrogen, &o, f1);
-    thread t2(&H2O::hydrogen, &o, f1);
-    thread t3(&H2O::hydrogen, &o, f1);
-    thread t4(&H2O::hydrogen, &o, f1);
-    thread t5(&H2O::hydrogen, &o, f2);
-    thread t6(&H2O::hydrogen, &o, f2);
-
-    std::this_thread::sleep_for(std::chrono::microseconds(1000));
     
+    auto execute = [&]() {
+        thread t3(&H2O::oxygen, &o, f2);
+        thread t1(&H2O::hydrogen, &o, f1);
+        thread t2(&H2O::hydrogen, &o, f1);
+        t1.join(); t2.join(); t3.join();
+    };
+    
+    execute();
 }
