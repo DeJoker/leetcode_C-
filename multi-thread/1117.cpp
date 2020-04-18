@@ -14,23 +14,28 @@ public:
 
     void hydrogen(function<void()> releaseHydrogen) {
         std::unique_lock<std::mutex> lk(_m);
+        _cv.wait(lk, [&](){ return _oxy && _hydrSize<2; });
         ++_hydrSize;
-        _cv.wait(lk, [&](){ return _oxy && _hydrSize==2; });
         // releaseHydrogen() outputs "H". Do not change or remove this line.
         releaseHydrogen();
-        _oxy = false;
-        _hydrSize = 0;
+        if (_hydrSize==2 && _oxy) {
+            _oxy = false;
+            _hydrSize = 0;
+        }
         _cv.notify_all();
     }
 
     void oxygen(function<void()> releaseOxygen) {
         std::unique_lock<std::mutex> lk(_m);
+        _cv.wait(lk, [&](){ return !_oxy; });
         _oxy = true;
-        _cv.wait(lk, [&](){ return _oxy && _hydrSize==2; });
         // releaseOxygen() outputs "O". Do not change or remove this line.
         releaseOxygen();
-        _oxy = false;
-        _hydrSize = 0;
+        if (_hydrSize==2 && _oxy) {
+            _oxy = false;
+            _hydrSize = 0;
+        }
+
         _cv.notify_all();
     }
 };
