@@ -1,5 +1,5 @@
-#include "../../common/debugger.h"
-#include "../../tree_util/pretty_tree.h"
+#include "../common/debugger.h"
+#include "../util/pretty_tree.h"
 
 class Solution {
 public:

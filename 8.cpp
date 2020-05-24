@@ -35,6 +35,15 @@ public:
 
 int main() {
     Solution sol;
-    cout << sol.myAtoi("   -91283472332");
+    cout << sol.myAtoi("   -91283472332") << endl;
+
+
+    priority_queue<int, vector<int>, less<int>> q1;
+    for(int i=0; i<4; ++i)
+        q1.push(i);
+    while(!q1.empty()) {
+        cout << q1.top() << " ";
+        q1.pop();
+    }
     return 0;
 }
