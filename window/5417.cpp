@@ -15,7 +15,8 @@ public:
         int cur(cnt);
         //这是如果要加入一次遍历应该是-1！！！！
         for(;l+k-1<s.size(); ++l) {
-            bool right = find(yuan.begin(), yuan.end(), s[l+k-1]) != yuan.end();
+            //这里也要检测，但是是l+k-1 还是l+k
+            bool right = find(yuan.begin(), yuan.end(), s[l+k]) != yuan.end();
             bool left = find(yuan.begin(), yuan.end(), s[l]) != yuan.end();
             if (left && !right)
                 --cur;
@@ -32,5 +33,7 @@ public:
 
 int main() {
     Solution sol;
-    sol.maxVowels("novowels", 1);
+    sol.maxVowels("tnfazcwrryitgacaabwm", 4);
+    // sol.maxVowels("novelsd", 1);
+    // sol.maxVowels("tryhard", 4);
 }

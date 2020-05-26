@@ -8,8 +8,9 @@
         "type": "shell",
         "label":"build",
         // "command": "g++ -g --std=c++11 -O0 multi-thread/thread_special_storage.cpp -lpthread",
-        "command": "g++ -g --std=c++11 -O0 window/5417.cpp",
-        // "command": "g++ -g --std=c++17 -O0 multi-thread/1114.cpp",
+        // "command": "g++ -g --std=c++11 -O0 window/5417.cpp",
+        "command": "g++ -g --std=c++11 -O0 代码段/mid_search.cpp",
+        // "command": "g++ -g --std=c++17 -O0 tree/257_binary-tree-paths.cpp",
         "group": {
           "kind": "build",
           "isDefault": true
