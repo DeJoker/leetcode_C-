@@ -22,6 +22,7 @@ int BinarySearch(vector<int>& vec, int value)
 	return -1;
 }
 
+// wrong 错误解法
 class Solution {
 public:
     int Count(int x) {
@@ -57,6 +58,12 @@ public:
 int main() {
     // cout << Solution().mySqrt(8) << endl;
     // cout << Solution().mySqrt(0) << endl;
-    cout << Solution().mySqrt(INT_MAX) << endl;
+    // cout << Solution().mySqrt(INT_MAX) << endl;
+
+    const char aa[10] = "dwefwf";
+    string host(aa+1, 30);
+    string host2(aa, 30);
+    cout << host << endl;
+    cout << host2 << endl;
 }
 

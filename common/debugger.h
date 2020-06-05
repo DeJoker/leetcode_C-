@@ -19,7 +19,7 @@ using namespace std;
 #include <cmath>
 
 template<typename Ty>
-void DebugVecor(vector<Ty>& mm)
+void DebugVector(vector<Ty>& mm)
 {
     cout << "Vector ";
     for (auto& data : mm)

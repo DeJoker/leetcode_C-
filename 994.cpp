@@ -152,11 +152,54 @@ public:
 };
 
 
+class Solution3 {
+public:
+    // static constexpr int dx[4] = {0, -1, 0, 1};
+    // static constexpr int dy[4] = {1, 0, -1, 0};
+    int dx[4] = {0, -1, 0, 1};
+    int dy[4] = {1, 0, -1, 0};
+    int orangesRotting(vector<vector<int>> grid) {
+        queue<tuple<int, int, int>> rot;
+        int n = grid.size(), m=grid[0].size();
+        int fresh(0), rotTime(0);
+        for(int i=0; i<grid.size(); ++i) {
+            for(int j=0; j<grid[0].size(); ++j) {
+                if (grid[i][j] == 2)
+                    rot.push({i,j,0});
+                else if (grid[i][j] == 1)
+                    ++fresh;
+            }
+        }
+
+        while(!rot.empty()) {
+            // if (fresh == 0)
+            //     break;
+            auto [x, y, count] = rot.front(); rot.pop();
+            for(int i=0; i<4; ++i) {
+                int nx = x+dx[i];
+                int ny = y+dy[i];
+                if (nx<0 || nx>=n || ny<0 || ny>=m) // 这里m填错成了n
+                    continue;
+                if (grid[nx][ny]==1) {
+                    rot.push({nx, ny, count+1});
+                    grid[nx][ny] = 2;
+                    rotTime = count+1;
+                    --fresh;
+                }
+            }
+        }
+        if (fresh == 0)
+            return rotTime;
+        else
+            return -1;
+    }
+};
+
 
 int main() {
-    Solution sol;
-    vector<vector<int>> inital = 
-    {{2,1,1},{1,1,0},{0,1,1}};
-    int cc = sol.orangesRotting(inital);
+    vector<vector<int>> inital = {{2,1,1},{0,1,1},{1,0,1}};
+    
+    // int cc = Solution3().orangesRotting(inital);
+    int cc = Solution3().orangesRotting({{1},{2}});
     cout << cc << endl;
 }
