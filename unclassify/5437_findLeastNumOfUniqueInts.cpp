@@ -1,48 +1,28 @@
-
 #include "../common/debugger.h"
-
-
-bool CompByTimes(const pair<int, int>& lhs, const pair<int, int>& rhs) {
-    return lhs.second<rhs.second;
-}
 
 class Solution {
 public:
     int findLeastNumOfUniqueInts(vector<int>& arr, int k) {
-        // map<int, vector<int>, decltype(CompByTimes)> cnt;
-        map<int, vector<int>> cnt;
-        int s;
-        {
-            map<int, int> eee;
-            for(int i=0; i<arr.size(); ++i) {
-                eee[arr[i]]++;
-            }
-            s = eee.size();
-            for(auto& [num,size] : eee) {
-                cnt[size].push_back(num);
-            }
+        map<int, int> cnt;
+        for(auto& cur : arr) {
+            ++cnt[cur];
         }
-        
-        while(k) {
-            auto iter = cnt.begin();
-            if (iter->first <= k) {
-                int second = iter->second.size();
-                int eraseC = k/iter->first;
-                if (eraseC <= second) {
-                    k -= eraseC;
-                    s -= eraseC;
-                    break;
-                } else {
-                    k -= iter->first*second;
-                    s -= second;
-                }
-                cnt.erase(iter);
+
+        priority_queue<pair<int,int>, vector<pair<int, int>>, greater<pair<int, int>>> pq;
+        for(auto& [f, s] : cnt) {
+            pq.push({s, f});
+        }
+
+        while(k && !pq.empty()) {
+            auto top = pq.top();
+            if (top.first <= k) {
+                k -= top.first;
             } else {
-                k = 0;
+                break;
             }
+            pq.pop();
         }
-        
-        return s;
+        return pq.size();
     }
 };
 

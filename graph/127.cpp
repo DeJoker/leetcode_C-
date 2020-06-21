@@ -46,9 +46,9 @@ public:
                         Q.push(neighbors[j]);
                         visited.insert(neighbors[j]);
                     }
+                    if (neighbors[j] == endWord)
+                        return res+1;
                 }
-                if (neighbors[i] == endWord)
-                    return res+1;
             }
             ++res;
         }

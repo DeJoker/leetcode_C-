@@ -24,6 +24,7 @@ public:
                     visit[nx][ny] = true;
                     nx += dx[i]; ny += dy[i];
                 }
+                nx -= dx[i]; ny -= dy[i];
             }
         }
         return res;
