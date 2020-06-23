@@ -1,4 +1,4 @@
-#include "common/debugger.h"
+#include "../common/debugger.h"
 
 
 bool edge_compare(const tuple<int, int>& t1, const tuple<int, int>& t2)

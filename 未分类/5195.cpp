@@ -1,4 +1,4 @@
-#include "common/debugger.h"
+#include "../common/debugger.h"
 
 int main() {
     int a(21), b(3), c(6);

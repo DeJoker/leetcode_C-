@@ -86,9 +86,9 @@ public:
                 continue;
             if (word[cnt+1] == board[nx][ny]) {
                 dfs(board, word, cnt+1, {nx, ny});
-                board[pos.first][pos.second] = tmp;
             }
         }
+        board[pos.first][pos.second] = tmp;
     }
 };
 

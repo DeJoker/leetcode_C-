@@ -1,4 +1,4 @@
-#include "common/debugger.h"
+#include "../common/debugger.h"
 #include "tree_util/pretty_tree.h"
 
 

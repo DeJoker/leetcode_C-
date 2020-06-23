@@ -1,4 +1,4 @@
-#include "common/debugger.h"
+#include "../common/debugger.h"
 
 string convertToBase7(int num) {
     string a;
