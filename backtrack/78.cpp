@@ -31,12 +31,12 @@ class Solution {
 public:
     int n;
     vector<vector<int>> _res;
-    void backtrack(int first, vector<int>& track, const vector<int>& nums) {
+    void backtrack(int first, vector<int> track, const vector<int>& nums) {
         _res.push_back(track);
 
         for(int i=first; i<n; ++i) {
             track.push_back(nums[i]);
-            backtrack(first+1, track, nums);
+            backtrack(i+1, track, nums);
             track.pop_back();
         }
     }
