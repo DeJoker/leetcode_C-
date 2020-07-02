@@ -24,6 +24,69 @@ void BatchAlgo(set<int>& cids, uint32_t aggregation = 10)
 }
 
 
+
+
+void TestBatchAlgo() {
+    set<int> cids;
+    for(int i=0; i<99; ++i)
+    {
+        BatchAlgo(cids);
+        DumpSeparate();
+        cids.insert(i);
+    }
+    BatchAlgo(cids);
+}
+
+
+
+
+
+
+template<typename ContainerParam>
+//process 需是左开右闭的处理
+void GradingRangeProcess(const ContainerParam& container, const std::function<void(typename ContainerParam::iterator&, typename ContainerParam::iterator&)> process, const uint32_t grade)
+{
+    if (container.empty()) {
+        return;
+    }
+    auto startIter = container.begin();
+    auto endIter(startIter);
+    int endPos(0);
+    do {
+        // end再往后挪grade个位置直至到达容器末端
+        endPos = std::min(endPos+grade, (uint32_t)container.size());
+        endIter = std::next(container.begin(), endPos);
+        // 保证process会移动startIter到endIter的位置
+        process(startIter, endIter);
+        startIter = endIter;
+    } while(endPos != container.size());
+
+}
+
+void CheckGradingRangeProcess(set<int>::iterator& begin, set<int>::iterator& end) {
+    // cout << *begin << ":" << *(end-1);
+    cout << *begin;
+    while(begin != end) {
+        ++begin;
+    }
+    auto xx = begin;
+    cout << ":" << *(--begin) <<endl;
+
+}
+
+void TestGradingRangeProcess() {
+    set<int> cids;
+    for(int i=0; i<99; ++i)
+    {
+        GradingRangeProcess(cids, CheckGradingRangeProcess, 10);
+        DumpSeparate();
+        cids.insert(i);
+    }
+    GradingRangeProcess(cids, CheckGradingRangeProcess, 10);
+}
+
+
+
 int stdNextDemo() {
     set<int> cids;
     for(int i=0; i<99; ++i)
@@ -65,8 +128,6 @@ int stdNextDemo() {
     } else {
         cout << "valid," << *xx << endl;
     }
-
-    BatchAlgo(cids);
 }
 
 
@@ -74,5 +135,7 @@ int stdNextDemo() {
 
 
 int main() {
-    stdNextDemo();
+    // stdNextDemo();
+    // TestBatchAlgo();
+    TestGradingRangeProcess();
 }
