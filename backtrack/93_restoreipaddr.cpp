@@ -14,7 +14,7 @@ public:
        return res;
     }
     
-    void dfs(const string& s, int len, int begin, int residue, deque<string> path) {
+    void dfs(const string& s, int len, int begin, int residue, deque<string>& path) {
         if (begin==len && residue==0) {
             string ip;
             for(const auto& dot : path) {

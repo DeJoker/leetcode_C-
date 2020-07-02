@@ -20,7 +20,7 @@ using namespace std;
 #include <cmath>
 
 template<typename Ty>
-void DebugVector(vector<Ty>& mm)
+void DebugVector(const vector<Ty>& mm)
 {
     cout << "Vector ";
     for (auto& data : mm)
@@ -30,8 +30,12 @@ void DebugVector(vector<Ty>& mm)
     cout << endl;
 }
 
+inline void DumpSeparate() {
+    cout << "----------Separate-----------" << endl;
+}
+
 template<typename Ty>
-void DebugDeque(deque<Ty>& mm)
+void DebugDeque(const deque<Ty>& mm)
 {
     cout << "Deque ";
     for (auto& data : mm)
@@ -42,7 +46,7 @@ void DebugDeque(deque<Ty>& mm)
 }
 
 template<typename Ty>
-void DebugPlanarVector(vector<vector<Ty>>& data)
+void DebugPlanarVector(const vector<vector<Ty>>& data)
 {
     for (auto& parallel : data)
     {
@@ -56,14 +60,14 @@ void DebugPlanarVector(vector<vector<Ty>>& data)
 }
 
 template<typename Frist, typename Second>
-void DebugPair(pair<Frist, Second>& data)
+void DebugPair(const pair<Frist, Second>& data)
 {
     cout << data.first << " : " << data.second << endl;
 }
 
 
 template<typename Ty1, typename Ty2>
-void DebugMap(map<Ty1, Ty2>& mm)
+void DebugMap(const map<Ty1, Ty2>& mm)
 {
     cout << "Debug Map ";
     for (auto& data : mm)
@@ -73,7 +77,7 @@ void DebugMap(map<Ty1, Ty2>& mm)
 }
 
 template<typename Ty>
-void DebugSet(set<Ty>& mm)
+void DebugSet(const set<Ty>& mm)
 {
     cout << "Debug Set ";
     for (auto& data : mm)
@@ -83,7 +87,7 @@ void DebugSet(set<Ty>& mm)
 }
 
 template<typename Ty1, typename Ty2>
-void DebugSet(set<Ty1, Ty2>& mm)
+void DebugSet(const set<Ty1, Ty2>& mm)
 {
     cout << "Debug Set ";
     for (auto& data : mm)
