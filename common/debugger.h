@@ -55,7 +55,7 @@ void PrintLogCallback(const char* file, int line, const char* func, int severity
 {
     static std::string severityStr[5] = {"Debug", "Info", "Warn", "Error", "Fatal"};
     fprintf(stdout, "[%s %s %d %s(%d) %s] %s \n",
-            severityStr[severity].c_str(), GetNowString().c_str(), gettid(), file, line, func, content);
+            severityStr[severity].c_str(), GetUString().c_str(), gettid(), file, line, func, content);
 }
 static bool callonce = (slog::SetLogCallBack(PrintLogCallback), true);
 

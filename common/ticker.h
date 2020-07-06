@@ -57,7 +57,7 @@ private:
 };
 
 
-std::string GetNowString() {
+std::string GetMsString() {
     // %F   YYYY-MM-DD日期的简写，相当于%Y-%m-%d
     // %T  ISO 8601时间格式 (HH:MM:SS)，相当于%H:%M:%S
     std::chrono::system_clock::time_point tp = std::chrono::system_clock::now();
@@ -76,6 +76,30 @@ std::string GetNowString() {
  
 	if (milliseconds_str.length() < 3) {
 		milliseconds_str = std::string(3 - milliseconds_str.length(), '0') + milliseconds_str;
+	}
+ 
+	return ss.str() + milliseconds_str;
+}
+
+std::string GetUString() {
+    // %F   YYYY-MM-DD日期的简写，相当于%Y-%m-%d
+    // %T  ISO 8601时间格式 (HH:MM:SS)，相当于%H:%M:%S
+    std::chrono::system_clock::time_point tp = std::chrono::system_clock::now();
+	time_t raw_time = std::chrono::system_clock::to_time_t(tp);
+ 
+	// tm*使用完后不用delete，因为tm*是由localtime创建的，并且每个线程中会有一个
+	struct tm  *timeinfo = std::localtime(&raw_time);
+ 
+	std::stringstream ss;
+	ss << std::put_time(timeinfo, "%Y-%m-%d %H:%M:%S.");
+ 
+	// tm只能到秒，毫秒需要另外获取
+	std::chrono::microseconds us = std::chrono::duration_cast<std::chrono::microseconds>(tp.time_since_epoch());
+ 
+	std::string milliseconds_str = std::to_string(us.count() % (int)1e6);
+ 
+	if (milliseconds_str.length() < 6) {
+		milliseconds_str = std::string(6 - milliseconds_str.length(), '0') + milliseconds_str;
 	}
  
 	return ss.str() + milliseconds_str;
