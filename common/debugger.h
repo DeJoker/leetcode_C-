@@ -14,8 +14,51 @@
 #include <unordered_map>
 #include <unordered_set>
 
+#include <future>
+
 #include <functional>
 #include <algorithm>
+#include "ticker.h"
+
+
+#include <sstream>
+#ifdef __linux
+#include <unistd.h>
+#include <sys/syscall.h> // gettid().
+typedef pid_t thread_id_t;
+#else
+typedef unsigned int thread_id_t; // MSVC
+#endif
+
+thread_local thread_id_t t_tid = 0;
+thread_id_t gettid()
+{
+    if (t_tid == 0)
+    {
+#ifdef __linux
+        t_tid = syscall(__NR_gettid);
+#else
+        std::stringstream ss;
+        ss << std::this_thread::get_id();
+        ss >> t_tid;
+#endif
+    }
+    return t_tid;
+}
+
+// 日志格式
+//  +------+-----------+-------+------+------+----------+------+
+//  | level | time | thread id | file | line | function | logs |
+//  +------+-----------+-------+------+------+----------+------+
+#include "simplelog.hpp"
+void PrintLogCallback(const char* file, int line, const char* func, int severity, const char* content)
+{
+    static std::string severityStr[5] = {"Debug", "Info", "Warn", "Error", "Fatal"};
+    fprintf(stdout, "[%s %s %d %s(%d) %s] %s \n",
+            severityStr[severity].c_str(), GetNowString().c_str(), gettid(), file, line, func, content);
+}
+static bool callonce = (slog::SetLogCallBack(PrintLogCallback), true);
+
 using namespace std;
 
 #include <cmath>
@@ -23,78 +66,91 @@ using namespace std;
 template<typename Ty>
 void DebugVector(const vector<Ty>& mm)
 {
-    cout << "Vector ";
+    string output;
+    output += "Vector ";
     for (auto& data : mm)
     {
-        cout << data << " ";
+        output += data << " ";
     }
-    cout << endl;
+    LOG_DEBUG << output;
 }
 
 inline void DumpSeparate() {
-    cout << "----------Separate-----------" << endl;
+    string output;
+    output += "----------Separate-----------";
 }
 
 template<typename Ty>
 void DebugDeque(const deque<Ty>& mm)
 {
-    cout << "Deque ";
+    string output;
+    output += "Deque ";
     for (auto& data : mm)
     {
-        cout << data->val << " ";
+        output += data->val + " ";
     }
-    cout << endl;
+    LOG_DEBUG << output;
 }
 
 template<typename Ty>
 void DebugPlanarVector(const vector<vector<Ty>>& data)
 {
+    string output;
     for (auto& parallel : data)
     {
-        cout << "[";
+        output += "[";
         for (auto& val : parallel)
         {
-            cout << val << ",";
+            output += val + ",";
         }
-        cout << "]" << endl;
+        output += "]";
     }
+    LOG_DEBUG << output;
 }
 
 template<typename Frist, typename Second>
 void DebugPair(const pair<Frist, Second>& data)
 {
-    cout << data.first << " : " << data.second << endl;
+    string output;
+    output += data.first + " : " + data.second;
+    LOG_DEBUG << output;
 }
 
 
 template<typename Ty1, typename Ty2>
 void DebugMap(const map<Ty1, Ty2>& mm)
 {
-    cout << "Debug Map ";
+    string output;
+    output += "Debug Map ";
     for (auto& data : mm)
     {
-        cout << data.first << " : " << data.second << endl;
+        output += data.first + " : " + data.second;
     }
+    LOG_DEBUG << output;
 }
 
 template<typename Ty>
 void DebugSet(const set<Ty>& mm)
 {
-    cout << "Debug Set ";
+    string output;
+    output += "Debug Set ";
     for (auto& data : mm)
     {
-        cout << data << " " << endl;
+        output += data + " ";
     }
+    LOG_DEBUG << output;
 }
 
 template<typename Ty1, typename Ty2>
 void DebugSet(const set<Ty1, Ty2>& mm)
 {
-    cout << "Debug Set ";
+    string output;
+    output += "Debug Set ";
     for (auto& data : mm)
     {
-        cout << data << " " << endl;
+        output += data + " ";
     }
+    LOG_DEBUG << output;
 }
 
 #endif
