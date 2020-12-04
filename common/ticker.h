@@ -11,7 +11,7 @@ public:
     {}
 
     ~Timer() {
-        std::cout << elapsed() << std::endl;
+        std::cout << "cost(us): " << elapsed_micro() << std::endl;
     }
 
     void reset() { 
@@ -81,7 +81,9 @@ std::string GetMsString() {
 	return ss.str() + milliseconds_str;
 }
 
+// 第一次获取居然要消耗 178us
 std::string GetUString() {
+    Timer t;
     // %F   YYYY-MM-DD日期的简写，相当于%Y-%m-%d
     // %T  ISO 8601时间格式 (HH:MM:SS)，相当于%H:%M:%S
     std::chrono::system_clock::time_point tp = std::chrono::system_clock::now();

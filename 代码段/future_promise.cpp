@@ -11,7 +11,7 @@ int PromiseDemo()
 	std::future<Data> data_future = data_promise.get_future();     //得到这个承诺封装好的期望
  
 	std::thread prepareData_thread([](std::promise<Data> &data_promise){
-		std::this_thread::sleep_for(std::chrono::milliseconds(200));    //模拟生产过程
+		// std::this_thread::sleep_for(std::chrono::milliseconds(200));    //模拟生产过程
 
 		cout << GetUString() << " set value" << endl;
 		// LOG_INFO << "set value";
@@ -19,7 +19,22 @@ int PromiseDemo()
 	}, std::ref(data_promise));
  
 	std::thread processData_thread([](std::future<Data> &data_future){
-		cout << data_future.get().value << "  xxx " <<   GetUString() << endl;
+		std::future_status status;
+		do {
+			status = data_future.wait_for(std::chrono::nanoseconds(5));
+			if (status == std::future_status::deferred) {
+				LOG_INFO << "eee";
+			} else if (status == std::future_status::timeout) {
+				LOG_INFO << "out";
+			} else if (status == std::future_status::ready) {
+				LOG_INFO << "yeah";
+				break;
+			}
+		} while (status != std::future_status::ready);
+
+		cout << GetUString() << "hahaha" << endl;
+		int value = data_future.get().value;
+		cout << GetUString() << "  xxx " << value << endl;
 		// LOG_INFO << data_future.get().value;
 		// std::cout << data_future.get().value << std::endl;    //通过get()获取结果
 	}, std::ref(data_future));

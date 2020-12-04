@@ -55,6 +55,7 @@ void PrintLogCallback(const char* file, int line, const char* func, int severity
 {
     static std::string severityStr[5] = {"Debug", "Info", "Warn", "Error", "Fatal"};
     fprintf(stdout, "[%s %s %d %s(%d) %s] %s \n",
+            // severityStr[severity].c_str(), GetUString().c_str(), std::this_thread::get_id(), file, line, func, content); // get_id() 用ld
             severityStr[severity].c_str(), GetUString().c_str(), gettid(), file, line, func, content);
 }
 static bool callonce = (slog::SetLogCallBack(PrintLogCallback), true);
@@ -66,13 +67,12 @@ using namespace std;
 template<typename Ty>
 void DebugVector(const vector<Ty>& mm)
 {
-    string output;
-    output += "Vector ";
+    stringstream output;
     for (auto& data : mm)
     {
-        output += data << " ";
+        output << data << " ";
     }
-    LOG_DEBUG << output;
+    LOG_DEBUG << output.str();
 }
 
 inline void DumpSeparate() {
@@ -83,74 +83,70 @@ inline void DumpSeparate() {
 template<typename Ty>
 void DebugDeque(const deque<Ty>& mm)
 {
-    string output;
-    output += "Deque ";
+    stringstream output;
     for (auto& data : mm)
     {
-        output += data->val + " ";
+        output << data->val + " ";
     }
-    LOG_DEBUG << output;
+    LOG_DEBUG << output.str();
 }
 
 template<typename Ty>
 void DebugPlanarVector(const vector<vector<Ty>>& data)
 {
-    string output;
+    stringstream output;
     for (auto& parallel : data)
     {
-        output += "[";
+        output << "[";
         for (auto& val : parallel)
         {
-            output += val + ",";
+            output << val + ",";
         }
-        output += "]";
+        output << "]";
     }
-    LOG_DEBUG << output;
+    LOG_DEBUG << output.str();
 }
 
 template<typename Frist, typename Second>
 void DebugPair(const pair<Frist, Second>& data)
 {
-    string output;
-    output += data.first + " : " + data.second;
-    LOG_DEBUG << output;
+    stringstream output;
+    output << data.first << " : " << data.second;
+    LOG_DEBUG << output.str();
 }
 
 
 template<typename Ty1, typename Ty2>
 void DebugMap(const map<Ty1, Ty2>& mm)
 {
-    string output;
-    output += "Debug Map ";
+    stringstream output;
     for (auto& data : mm)
     {
-        output += data.first + " : " + data.second;
+        output << data.first << " : " << data.second;
     }
-    LOG_DEBUG << output;
+    LOG_DEBUG << output.str();
 }
 
 template<typename Ty>
 void DebugSet(const set<Ty>& mm)
 {
-    string output;
-    output += "Debug Set ";
+    stringstream output;
     for (auto& data : mm)
     {
-        output += data + " ";
+        output<<= data + " ";
     }
-    LOG_DEBUG << output;
+    LOG_DEBUG << output.str();
 }
 
 template<typename Ty1, typename Ty2>
 void DebugSet(const set<Ty1, Ty2>& mm)
 {
-    string output;
-    output += "Debug Set ";
+    stringstream output;
     for (auto& data : mm)
     {
-        output += data + " ";
+        output << data + " ";
     }
-    LOG_DEBUG << output;
+    LOG_DEBUG << output.str();
 }
 
 #endif
