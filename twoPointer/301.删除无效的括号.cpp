@@ -77,7 +77,7 @@ public:
         }
 
         char c = s[idx];
-        int len = curExpr.length();
+        // int len = curExpr.length();
 
         // 这里就是剪枝的地方
         if ((c=='(' && leftRemove>0) || (c==')' && rightRemove>0)) {
@@ -108,7 +108,7 @@ public:
             if (s[i] == '(') {
                 ++leftR;
             } else if (s[i] == ')') {
-                if (left == 0)   ++rightR;
+                if (leftR == 0)   ++rightR;
                 else --leftR;
             }
         }
