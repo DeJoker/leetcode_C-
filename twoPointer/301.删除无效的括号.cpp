@@ -7,7 +7,7 @@
 #include "../common/debugger.h"
 
 // @lc code=start
-class Solution {
+class Solution33 {
 public:
     set<string> _expressions;
     int _minRemove = INT_MAX;
@@ -19,19 +19,23 @@ public:
         if (idx == s.size()) {
             if (left == right) {
                 if (remove <= _minRemove) {
-                    _expressions.clear();
-                    _minRemove = remove;
+                    if (remove < _minRemove) {
+                        _expressions.clear();
+                        _minRemove = remove;
+                    }
+                    _expressions.insert(curExpr);
                 }
-                _expressions.insert(curExpr);
             }
             return;
         } 
 
         char c = s[idx];
         int len = curExpr.length();
+
         if (c!='(' && c!=')') {
             curExpr.push_back(c);
             Recurse(s, idx+1, left, right, curExpr, remove);
+            // curExpr.replace(len, 1, "");
             curExpr.pop_back();
         } else {
 
@@ -56,5 +60,65 @@ public:
     }
 };
 
+
+class Solution {
+public:
+    set<string> _exprs;
+
+    void Recurse(const string& s, int idx, string curExpr,
+                    int left, int right,
+                    int leftRemove, int rightRemove)
+    {
+        if (idx == s.size()) {
+            if (leftRemove == 0 && rightRemove == 0) {
+                _exprs.insert(curExpr);
+            }
+            return;
+        }
+
+        char c = s[idx];
+        int len = curExpr.length();
+
+        // 这里就是剪枝的地方
+        if ((c=='(' && leftRemove>0) || (c==')' && rightRemove>0)) {
+            Recurse(s, idx+1, curExpr, left, right, 
+                    leftRemove - (c=='(' ? 1 : 0),
+                    rightRemove - (c==')' ? 1 : 0)
+            );
+        }
+
+        curExpr.push_back(c);
+
+        if (c!='(' && c!=')') {
+            Recurse(s, idx+1, curExpr, left, right, leftRemove, rightRemove);
+        } else {
+            if (c=='(') {
+                Recurse(s, idx+1, curExpr, left+1, right, leftRemove, rightRemove);
+            } else if (right < left) {
+                Recurse(s, idx+1, curExpr, left, right+1, leftRemove, rightRemove);
+            }
+        }
+
+        curExpr.pop_back();
+    }
+
+    vector<string> removeInvalidParentheses(string s) {
+        int leftR(0), rightR(0);
+        for(int i=0; i<s.length(); i++) {
+            if (s[i] == '(') {
+                ++leftR;
+            } else if (s[i] == ')') {
+                if (left == 0)   ++rightR;
+                else --leftR;
+            }
+        }
+        Recurse(s, 0, "", 0, 0, leftR, rightR);
+        return {_exprs.begin(), _exprs.end()};
+    }
+};
+
 // @lc code=end
 
+int main() {
+    DebugVector( Solution().removeInvalidParentheses("()())()") );
+}
