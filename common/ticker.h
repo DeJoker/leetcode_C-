@@ -1,3 +1,6 @@
+#ifndef _TICKET_H__
+#define _TICKET_H__
+
 
 #include <chrono>
 #include <iomanip>  //std::put_time
@@ -81,9 +84,9 @@ std::string GetMsString() {
 	return ss.str() + milliseconds_str;
 }
 
-// 第一次获取居然要消耗 178us
 std::string GetUString() {
-    Timer t;
+    // Timer t;   // 第一次获取居然要消耗 178us  后续会收敛到5-10
+    
     // %F   YYYY-MM-DD日期的简写，相当于%Y-%m-%d
     // %T  ISO 8601时间格式 (HH:MM:SS)，相当于%H:%M:%S
     std::chrono::system_clock::time_point tp = std::chrono::system_clock::now();
@@ -113,3 +116,4 @@ std::string GetUString() {
 //     std::cout << "hello word" << std::endl;
 // }
 
+#endif

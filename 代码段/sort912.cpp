@@ -74,9 +74,49 @@ public:
 };
 
 
+class Heap {
+public:
+// 自上而下
+void MaxHeapify(int arr[], int start, int last) {
+    // 父节点 子节点
+    int dad = start;
+    int son = dad * 2 + 1;
+    // 
+    while (son <= last) { 
+        if (son + 1 <= last && arr[son] < arr[son + 1]) // 两子节点取最大的
+            son++;
+        if (arr[dad] > arr[son]) // 父大于子结束
+            return;
+        else { // 否則交換父子內容再繼續子節點和孫節點比較
+            swap(arr[dad], arr[son]);
+            dad = son;
+            son = dad * 2 + 1;
+        }
+    }
+}
+
+void HeapSort(int arr[], int len) {
+    // 初始化，最后一个父开始（自下而上）
+    for (int i = len / 2 - 1; i >= 0; i--)
+        MaxHeapify(arr, i, len - 1);
+    // 先將第一個元素和已经排好的元素前一位做交換，再從新調整(刚调整的元素之前的元素)，直到排序完畢
+    // 将之前排序好的父
+    for (int i = len - 1; i > 0; i--) {
+        swap(arr[0], arr[i]);
+        MaxHeapify(arr, 0, i - 1);
+    }
+}
+};
+
+
 int main() {
     Solution2 sol;
     vector<int> arr{3,4,5,1,43,54,12,57,49};
     sol.sortArray(arr);
+
+    int xxx[] = {3,4,5,1,43,54,12,57,49};
+    int len = sizeof(xxx)/sizeof(int);
+    Heap().HeapSort(xxx, len);
+
     return 0;
 }

@@ -34,6 +34,13 @@ int main() {
     //     DebugVector( a );
     // }
 
+    list<int> l;
+    // l.
+    // l.erase
+    l.push_front(2);
+    // l.back
+    // l.pop_back
+
     vector<int> a{3,2,1};
     Solution().nextPermutation(a);
     DebugVector( a );

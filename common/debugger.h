@@ -133,7 +133,7 @@ void DebugSet(const set<Ty>& mm)
     stringstream output;
     for (auto& data : mm)
     {
-        output<<= data + " ";
+        output << data << " ";
     }
     LOG_DEBUG << output.str();
 }
