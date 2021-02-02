@@ -39,8 +39,8 @@ thread_id_t gettid()
         t_tid = syscall(__NR_gettid);
 #else
         std::stringstream ss;
-        ss << std::this_thread::get_id();
-        ss >> t_tid;
+        // ss << std::this_thread::get_id();
+        // ss >> t_tid;
 #endif
     }
     return t_tid;
@@ -84,11 +84,16 @@ template<typename Ty>
 void DebugDeque(const deque<Ty>& mm)
 {
     stringstream output;
-    for (auto& data : mm)
-    {
-        output << data->val + " ";
+    for (auto it = mm.begin(); it != mm.end(); ++it) {
+        output << *it + " ";
     }
     LOG_DEBUG << output.str();
+
+    string out;
+    for (auto it = mm.begin(); it != mm.end(); ++it) {
+        out += *it + " ";
+    }
+    LOG_DEBUG << out;
 }
 
 template<typename Ty>
