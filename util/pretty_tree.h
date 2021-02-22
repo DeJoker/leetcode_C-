@@ -2,9 +2,7 @@
 #define __PRETTY_TREE_H_
 
 #include <iostream>
-#include <sstream>
 #include <string>
-#include <vector>
 #include <queue>
 #include <algorithm>
 using namespace std;

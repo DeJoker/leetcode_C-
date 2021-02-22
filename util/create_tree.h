@@ -10,7 +10,10 @@ using namespace std;
 #include <cstdio>
 
 #include "pretty_tree.h"
-#include "../common/debugger.h"
+
+// "../common/debugger.h"
+template<typename Ty>
+void DebugVector(const vector<Ty>& mm);
 
 /*
 struct TreeNode
@@ -52,6 +55,11 @@ inline TreeNode* createNode(string integer)
     TreeNode* node = new TreeNode(std::atoi(integer.c_str()));
     // cout << node->val << endl;
     return node;
+
+    string kk;
+    kk.pop_back();
+    kk.substr(1);
+    kk.back() = 'd';
 }
 
 void CreatBiTree(TreeNode* T)
@@ -77,7 +85,7 @@ TreeNode* CreateTreeNode(string aa)
     auto vec = tokenize_str(aa, ",");
     if (vec.empty()) return NULL;
 
-    DebugVecor(vec);
+    DebugVector(vec);
 
     queue<TreeNode*> traverse;
     TreeNode* root = createNode(vec[0]);

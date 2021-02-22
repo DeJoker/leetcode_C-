@@ -20,6 +20,9 @@
 #include <algorithm>
 #include "ticker.h"
 
+#include "../util/list_util.h"
+#include "../util/create_tree.h"
+
 
 #include <sstream>
 #ifdef __linux
