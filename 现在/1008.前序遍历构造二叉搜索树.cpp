@@ -17,22 +17,24 @@
  *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
  * };
  */
-// {4,2} 在第一次mid == -1 返回空了
-class Solution333 {
+
+
+// 一版本有误；{4,2} 在第一次mid == -1 返回空了
+
+// 
+class Solution {
 public:
     TreeNode* dfs(vector<int>& preorder, int s, int e) {
         if (s > e) return nullptr;
         TreeNode* root = new TreeNode(preorder[s]);
         if (s == e) return root;
-        int mid(-1);
-        for(int i=s+1; i<=e; ++i) {
-            if (preorder[i] > preorder[s]) {
-                mid = i; break;
+        int mid(s+1);
+        for(; mid<=e; ++mid) {
+            if (preorder[mid] > preorder[s]) {
+                break;
             }
         }
-        if (mid == -1) {
-            return nullptr;
-        }
+
         root->left = dfs(preorder, s+1, mid-1);
         root->right = dfs(preorder, mid, e);
         return root;
@@ -109,7 +111,8 @@ public:
 };
 
 
-class Solution {
+// 不知道怎么写的
+class Solution555 {
     int idx = 0;
 public:
     TreeNode* bstFromPreorder(vector<int>& preorder) {
@@ -135,5 +138,6 @@ int main() {
     prettyPrintTree( Solution().bstFromPreorder(xx) );
     xx  = {4,2};
     prettyPrintTree( Solution444().bstFromPreorder(xx) );
+    prettyPrintTree( Solution333().bstFromPreorder(xx) );
 
 }

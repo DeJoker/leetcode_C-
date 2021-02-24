@@ -17,6 +17,9 @@
  *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
  * };
  */
+
+// 错误；另外可以不记录层数，一次将队列所有节点取出并添加下一层即可
+// 因为求得是宽度，不需要记录层数，内置循环把一层所有遍历完即可
 class Solution33 {
 public:
     size_t ans=0;
@@ -94,7 +97,8 @@ public:
     }
 };
 
-// 因为求得是宽度，不需要记录层数，内置循环把一层所有遍历完即可
+
+// 关键在于如何缩减同层的数量，避免int溢出
 
 // 如何防止极端情况整数越界。有一个用例是线性的树，所以如果每层都乘以2很快就越界了
 // 我们采用每次进入新的一层的时候记录queue 头部的index - 1 作为delta

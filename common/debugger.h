@@ -102,17 +102,17 @@ void DebugDeque(const deque<Ty>& mm)
 template<typename Ty>
 void DebugPlanarVector(const vector<vector<Ty>>& data)
 {
-    stringstream output;
+    string output;
     for (auto& parallel : data)
     {
-        output << "[";
-        for (auto& val : parallel)
+        output += "[";
+        for (auto val : parallel)
         {
-            output << val + ",";
+            output += to_string(val) + ",";
         }
-        output << "]";
+        output += "]";
     }
-    LOG_DEBUG << output.str();
+    LOG_DEBUG << output;
 }
 
 template<typename Frist, typename Second>
