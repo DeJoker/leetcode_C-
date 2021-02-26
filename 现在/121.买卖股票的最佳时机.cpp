@@ -12,13 +12,13 @@ public:
     //dp[i][1] 持有
     int maxProfit(vector<int>& prices) {
         int n=prices.size();
-        vector<pair<int, int>> dp(n+1);
+        vector<pair<int, int>> dp(n);
         dp[0].first = 0; dp[0].second = -prices[0];
-        for(int i=1; i<=n; i++) {
-            dp[i].first = max(dp[i-1].first, dp[i-1].second+prices[i-1]);
-            dp[i].second = max(dp[i-1].second, -prices[i-1]);
+        for(int i=1; i<n; i++) {
+            dp[i].first = max(dp[i-1].first, dp[i-1].second+prices[i]);
+            dp[i].second = max(dp[i-1].second, -prices[i]);
         }
-        return dp[n].first;
+        return dp[n-1].first;
     }
 };
 // @lc code=end
