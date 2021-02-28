@@ -9,7 +9,7 @@
 
 
 // 栈内递增
-class SolutionWrong {
+class Solution {
 public:
     int largestRectangleArea(vector<int>& heights) {
         // if (heights.empty()) return 0;
@@ -17,19 +17,21 @@ public:
         heights.push_back(-1); // 需要所有数据最后都出栈
 
         stack<int> s;
-        int res(heights[0]);
+        int res(0);
         for(int i=0; i<heights.size(); i++) {
-            int k=1;
             while(!s.empty() && heights[s.top()] > heights[i]) {
-                res = max(res, heights[s.top()]*k);
-                ++k;
-                s.pop();
+                int t=s.top(); s.pop();
+                res = max(res, (i-s.top()-1)*heights[t]);
             }
             s.push(i);
         }
         return res;
     }
 };
+
+
+// @lc code=end
+
 
 int largestRectangleArea(vector<int>& heights)
 {
@@ -53,10 +55,9 @@ int largestRectangleArea(vector<int>& heights)
     return ans;
 }
 
-
-
-//再次强调栈中现在为单调递增
-class Solution {
+// 再次强调栈中现在为单调递增
+// 这里修改了原数组，不只是追加
+class Solution222 {
 public:
     int largestRectangleArea(vector<int>& heights) {
         heights.push_back(-1);
@@ -85,13 +86,12 @@ public:
     }
 };
 
-// @lc code=end
 
 int main() {
     vector<int> p;
-    p = {2,1,5,6,7,8,2,3};
-    // LOG_DEBUG << Solution().largestRectangleArea(p);
-    p = {2,1,2};
-    LOG_DEBUG << SolutionWrong().largestRectangleArea(p);
+    p = {2,1,5,6,7,8,2,3}; // 20
+    LOG_DEBUG << Solution().largestRectangleArea(p);
+    p = {2,1,2}; // 3
+    LOG_DEBUG << Solution().largestRectangleArea(p);
 }
 
