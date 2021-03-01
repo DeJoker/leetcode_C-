@@ -6,7 +6,7 @@
 #include "../common/debugger.h"
 
 // @lc code=start
-// 弹出一个，然后跟栈内的比
+// 弹出一个，然后跟栈内的比；栈内递减
 class Solution {
 public:
     int trap(vector<int>& height) {
