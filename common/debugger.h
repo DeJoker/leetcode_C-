@@ -115,6 +115,21 @@ void DebugPlanarVector(const vector<vector<Ty>>& data)
     LOG_DEBUG << output;
 }
 
+void DebugPlanarVector(const vector<vector<std::string>>& data)
+{
+    string output;
+    for (auto& parallel : data)
+    {
+        output += "[";
+        for (auto val : parallel)
+        {
+            output += val + ",";
+        }
+        output += "]";
+    }
+    LOG_DEBUG << output;
+}
+
 template<typename Frist, typename Second>
 void DebugPair(const pair<Frist, Second>& data)
 {
