@@ -73,7 +73,7 @@ void DebugVector(const vector<Ty>& mm)
     stringstream output;
     for (auto& data : mm)
     {
-        output << data << " ";
+        output << data << ", ";
     }
     LOG_DEBUG << output.str();
 }
