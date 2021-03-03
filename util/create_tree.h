@@ -55,11 +55,6 @@ inline TreeNode* createNode(string integer)
     TreeNode* node = new TreeNode(std::atoi(integer.c_str()));
     // cout << node->val << endl;
     return node;
-
-    string kk;
-    kk.pop_back();
-    kk.substr(1);
-    kk.back() = 'd';
 }
 
 void CreatBiTree(TreeNode* T)
