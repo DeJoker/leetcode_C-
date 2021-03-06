@@ -7,9 +7,36 @@
 
 // @lc code=start
 
+class Solution {
+public:
+    vector<int> nextGreaterElement(vector<int>& nums1, vector<int>& nums2) {
+        map<int, int> greater2;
+        stack<int> st;
+        for(int i=0; i<nums2.size(); i++) {
+            while(!st.empty() && nums2[st.top()] < nums2[i]) {
+                greater2[nums2[st.top()]] = nums2[i];
+                st.pop();
+            }
+            st.push(i);
+        }
+        while(!st.empty()) {
+            greater2[nums2[st.top()]] = -1;
+            st.pop();
+        }
+
+        vector<int> res;
+        for (auto& num : nums1) {
+            res.push_back(greater2[num]);
+        }
+        return res;
+    }
+};
+
 
 // 从后往前，单调递减栈；下一个更大就是当前top
-class Solution {
+// 这里逆序遍历不在内层循环弹出，而是直接在栈内存储更大元素，栈内的top就是下一个更大元素
+// 正序遍历就是需要最后把栈全部弹出，给这些没有下一个更大的赋值为-1
+class Solution222 {
 public:
     vector<int> nextGreaterElement(vector<int>& nums1, vector<int>& nums2) {
         stack<int> s;
