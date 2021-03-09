@@ -58,12 +58,12 @@ public:
         vector<vector<string>> res;
         if (n==0) return {{}};
         vector<vector<bool>> dp(n, vector<bool>(n));
-        for(int l=0; l<n; l++) {
-            for(int i=0; i+l<n; ++i) {
-                int j=i+l;
-                if (l==0) {
+        for(int len=0; len<n; len++) {
+            for(int i=0; i+len<n; ++i) {
+                int j=i+len;
+                if (len==0) {
                     dp[i][j]=true;
-                } else if (l==1)  {
+                } else if (len==1)  {
                     dp[i][j] = s[i]==s[j];
                 } else  {
                     dp[i][j] = dp[i+1][j-1] && s[i]==s[j];

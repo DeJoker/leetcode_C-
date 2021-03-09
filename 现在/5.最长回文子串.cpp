@@ -14,22 +14,22 @@ public:
 
         string res;
         // 长度0到n-1 
-        // l==0相当于初始化
-        // l==1是base case
-        // l+1是真字符长度
-        for(int l=0; l<n; l++) {
-            for(int i=0; i+l<n; i++) {
-                int j=i+l;
-                if (l==0) {
+        // len==0相当于初始化
+        // len==1是base case
+        // len+1是真字符长度
+        for(int len=0; len<n; len++) {
+            for(int i=0; i+len<n; i++) {
+                int j=i+len;
+                if (len==0) {
                     dp[i][j] = true;
-                } else if (l==1) { // 这个是单个字符
+                } else if (len==1) { // 这个是单个字符
                     dp[i][j] = s[i]==s[j];
                 } else { // 长度大于等于2就需要比较了
                     dp[i][j] = s[i]==s[j]&&dp[i+1][j-1];
                 }
 
-                if (dp[i][j] && l+1>res.size()) {
-                    res = s.substr(i, l+1);
+                if (dp[i][j] && len+1>res.size()) {
+                    res = s.substr(i, len+1);
                 }
             }
         }

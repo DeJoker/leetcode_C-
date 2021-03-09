@@ -31,9 +31,9 @@ public:
         }
 
         // 记得是闭区间，2是开始，n是最终的总长
-        for(int l=2; l<=n; ++l) {
-            for (int i=0; i<=n-l; i++) {
-                int j=i+l-1;
+        for(int len=2; len<=n; ++len) {
+            for (int i=0; i<=n-len; i++) {
+                int j=i+len-1;
                 int lPick = piles[i] + dp[i+1][j].second;
                 int rPick = piles[j] + dp[i][j-1].second;
 
