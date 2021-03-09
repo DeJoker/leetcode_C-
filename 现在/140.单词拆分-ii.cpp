@@ -6,7 +6,7 @@
 #include "../common/debugger.h"
 
 // @lc code=start
-class SolutionDP {
+class Solution {
 public:
     vector<string> wordBreak(string s, vector<string>& wordDict) {
         set<string> words{wordDict.begin(), wordDict.end()};
@@ -44,7 +44,8 @@ public:
                 string suf = s.substr(i, len-i);
                 if (dp[i] && words.find(suf)!=words.end()) {
                     path.push_back(suf);
-                    dfs(i, path);
+                    dfs(i, path); // 这里问什么是i不变，会导致死循环吗？
+                    // 不会；因为迭代的起始不是i而是i-1   用i是因为和dp数组下标对应
                     path.pop_back();
                 }
 
@@ -61,7 +62,7 @@ public:
 
 
 // 纯回溯算法
-class Solution {
+class SolutionXX {
 public:
     vector<string> wordBreak(string s, vector<string>& wordDict) {
         unordered_map<string,vector<string> > m;
