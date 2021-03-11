@@ -121,6 +121,8 @@ public:
         return prev[sum + target];
     }
 };
+// https://leetcode-cn.com/problems/target-sum/solution/dong-tai-gui-hua-si-kao-quan-guo-cheng-by-keepal/431996
+
 
 // @lc code=end
 

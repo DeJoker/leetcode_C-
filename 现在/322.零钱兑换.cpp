@@ -9,32 +9,25 @@
 
 // @lc code=start
 
+
+// 01背包的for循环可以兑换
 class Solution {
 public:
     int coinChange(vector<int>& coins, int amount) {
         int n=coins.size();
         if (n==0) return -1;
-        vector<int> dp(amount+1, INT_MAX);
+        vector<int> dp(amount+1, amount+1); // 非法值即可，不用一定要INT_MAX
 
         // base case
         dp[0] = 0;
-        for(int i=0; i<n; i++) {
-            if (amount>=coins[i])
-                dp[coins[i]] = 1;
-        }
 
-
-        for (int j=0; j<=amount; ++j) {
-            for (int i=0; i<n; i++) {
-                if (j<coins[i]) continue;
-
-                int coin = dp[j-coins[i]];
-                if (coin != INT_MAX)
-                    dp[j] = min(dp[j], coin+1);
+        for (int i=0; i<n; i++) {
+            for (int j=coins[i]; j<=amount; ++j) {
+                dp[j] = min(dp[j], dp[j-coins[i]]+1);
             }
         }
 
-        return dp[amount]==INT_MAX ? -1 : dp[amount];
+        return dp[amount]==amount+1 ? -1 : dp[amount];
     }
 };
 
