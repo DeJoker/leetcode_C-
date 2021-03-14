@@ -11,7 +11,7 @@
 
 
 // 01背包的for循环可以兑换
-class Solution {
+class SolutionOne {
 public:
     int coinChange(vector<int>& coins, int amount) {
         int n=coins.size();
@@ -31,7 +31,38 @@ public:
     }
 };
 
-class SolutionTwo {
+
+class Solution {
+public:
+    int coinChange(vector<int>& coins, int amount) {
+        int n=coins.size();
+        if (n==0) return -1;
+        vector<vector<int>> dp(n+1, vector<int>(amount+1, amount+1));
+
+        // base case
+        for (int i=0; i<=n; i++) {
+            dp[i][0] = 0;
+        }
+
+        for (int i=1; i<=n; i++) {
+            for (int j=1; j<=amount; ++j) {
+                // dp[i][j] = min(dp[i-1, j], dp[i-1, j-coins[i]]) 
+                // 为什么这里实际用的是dp[i][j-coins[i-1]]
+                
+                // 这里注意如果选择第i个硬币,那么就是dp[i][j-coins[i-1]]+1
+                if (j>=coins[i-1] && dp[i][j-coins[i-1]]!=amount+1) {
+                    dp[i][j] = min(dp[i-1][j], dp[i][j-coins[i-1]]+1);
+                } else {
+                    dp[i][j] = dp[i-1][j];
+                }
+            }
+        }
+
+        return dp[n][amount]==amount+1 ? -1 : dp[n][amount];
+    }
+};
+
+class SolutionTwoUnnecessaryInit {
 public:
     int coinChange(vector<int>& coins, int amount) {
         int n=coins.size();
@@ -62,7 +93,8 @@ public:
                 dp[i][j] = dp[i-1][j]; // 忘了加这句
                 if (j<coins[i]) continue;
 
-                int coin = min(dp[i-1][j-coins[i]], dp[i][j-coins[i]]);
+                // 01背包取不到dp[i][j-coins[i]]，判断dp[i-1][j-coins[i]]不为非法制就应该计算dp[i][j]
+                int coin = min(dp[i-1][j-coins[i]], dp[i][j-coins[i]]); 
                 if (coin != INT_MAX)
                     dp[i][j] = min(dp[i][j], coin+1);
             }
