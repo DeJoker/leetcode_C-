@@ -32,12 +32,96 @@ public:
 };
 
 
+// swap
+class Solution {
+public:
+    void ShiftUp(vector<int>& heap, int son) { // son相当于新加入的，调整到合适位置
+        int dad=(son-1)/2;
+        while (dad>=0) { // 因为是新加入原来的已经有序，因此这里如果到合理位置立即结束
+            if (heap[son] >= heap[dad]) break;
+            swap(heap[son], heap[dad]);
+            son=dad; dad=(son-1)/2;
+        }
+    }
+
+    void ShiftDown(vector<int>& heap, int dad, int last) {
+        int son=2*dad+1;
+        while(son <= last) {
+            if (son+1 <= last && heap[son]>heap[son+1]) son++;
+            if (heap[son] >= heap[dad]) break;
+
+            swap(heap[son], heap[dad]);
+            dad=son; son=2*dad+1;
+        }
+    }
+
+
+    int findKthLargest(vector<int>& nums, int k) {
+        vector<int> heap;
+        for(auto num : nums) {
+            if (heap.size()==k && num <= heap[0]) continue;
+            if (heap.size() < k) {
+                heap.push_back(num);
+                ShiftUp(heap, heap.size()-1);
+            } else {
+                heap[0]=num;
+                ShiftDown(heap, 0, heap.size()-1);
+            }
+        }
+        return heap[0];
+    }
+};
+
+// 自己完成重写
+class SolutionMMM {
+public:
+    void ShiftUp(vector<int>& heap, int son) { // son相当于新加入的，调整到合适位置
+        int val=heap[son];
+        int dad=(son-1)/2;
+        while (dad>=0 && heap[dad]>val) { // 因为是新加入原来的已经有序，因此这里如果到合理位置立即结束
+            // 给下面赋更大的值，然后上面为刚才的val
+            heap[son] = heap[dad];
+            son=dad; dad=(son-1)/2;
+            heap[son] = val;
+        }
+    }
+
+    void ShiftDown(vector<int>& heap, int dad, int last) {
+        int val=heap[dad];
+        int son=2*dad+1;
+        while(son <= last) {
+            if (son+1 <= last && heap[son]>heap[son+1]) son++;
+            if (heap[son] >= val) break; // 
+            heap[dad] = heap[son];
+            dad=son; son=2*dad+1;
+        }
+        heap[dad] = val; // 为什么在外层？
+    }
+
+
+    int findKthLargest(vector<int>& nums, int k) {
+        vector<int> heap;
+        for(auto num : nums) {
+            if (heap.size()==k && num <= heap[0]) continue;
+            if (heap.size() < k) {
+                heap.push_back(num);
+                ShiftUp(heap, heap.size()-1);
+            } else {
+                heap[0]=num;
+                ShiftDown(heap, 0, heap.size()-1);
+            }
+        }
+        return heap[0];
+    }
+};
+
+
 // [2,1]  2     v1未通过
 // [-1,2,0]  2     v2未通过
 // v3通过 （修改入队和出队方式）
 
 // 小顶堆实现
-class Solution {
+class SolutionPPP {
 private:
 int k;
 
@@ -94,15 +178,14 @@ int findKthLargest(vector<int>& nums, int k) {
 int main() {
     vector<int> p;
     p = {3,2,1,5,6,4};
-    LOG_DEBUG << Solution().findKthLargest(p, 2);
+    LOG_DEBUG << Solution().findKthLargest(p, 2); // 5
 
     p = {3,2,3,1,2,4,5,5,6};
-    LOG_DEBUG << Solution().findKthLargest(p, 4);
+    LOG_DEBUG << Solution().findKthLargest(p, 4); // 4
 
     p = {2,1};
-    LOG_DEBUG << Solution().findKthLargest(p, 2);
-    // LOG_DEBUG << Solution2().findKthLargest(p, 2);
+    LOG_DEBUG << Solution().findKthLargest(p, 2); // 1
 
     p = {-1,2,0};
-    LOG_DEBUG << Solution().findKthLargest(p, 2);
+    LOG_DEBUG << Solution().findKthLargest(p, 2); // 0
 }
