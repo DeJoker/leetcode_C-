@@ -78,6 +78,8 @@ void DebugVector(const vector<Ty>& mm)
     LOG_DEBUG << output.str();
 }
 
+// 传入类型对函数重载和模板函数的全特化一样  （完全匹配）  则优先调用函数重载
+// 相当于全特化不会被调用
 
 // 函数模板，却只有全特化，不能偏特化
 // 偏特化的功能可以通过函数的重载完成
@@ -91,6 +93,18 @@ void DebugVector<std::string>(const vector<std::string>& mm)
     }
     LOG_DEBUG << output.str();
 }
+
+
+void DebugVector(const vector<std::string>& mm)
+{
+    stringstream output;
+    for (auto& data : mm)
+    {
+        output << data << ", ";
+    }
+    LOG_DEBUG << output.str();
+}
+
 
 inline void DumpSeparate() {
     string output;

@@ -11,6 +11,7 @@
 class Solution {
 public:
     string removeKdigits(string num, int k) {
+        // stack<char> st;
         vector<char> st;
         for(int i=0; i<num.size(); i++) {
             while(!st.empty() && st.back() > num[i] && k) {

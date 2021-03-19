@@ -11,12 +11,16 @@ using namespace std;
 
 #include "pretty_tree.h"
 
-template<typename Ty>
-void DebugVector(const vector<Ty>& mm);
+// template<typename Ty>
+// void DebugVector(const vector<Ty>& mm);
 
-// 模板的特化版本依赖于通用模板,通用模板必须在所有特化模板之前声明(定义)
-template<>
-void DebugVector<std::string>(const vector<std::string>& mm);
+// // 模板的特化版本依赖于通用模板,通用模板必须在所有特化模板之前声明(定义)
+// template<>
+// void DebugVector<std::string>(const vector<std::string>& mm);
+
+
+// 有重载不会调用全特化
+void DebugVector(const vector<std::string>& mm);
 
 /*
 struct TreeNode
