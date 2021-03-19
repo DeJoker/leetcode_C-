@@ -73,6 +73,20 @@ void DebugVector(const vector<Ty>& mm)
     stringstream output;
     for (auto& data : mm)
     {
+        output << to_string(data) << ", ";
+    }
+    LOG_DEBUG << output.str();
+}
+
+
+// 函数模板，却只有全特化，不能偏特化
+// 偏特化的功能可以通过函数的重载完成
+template<>
+void DebugVector<std::string>(const vector<std::string>& mm)
+{
+    stringstream output;
+    for (auto& data : mm)
+    {
         output << data << ", ";
     }
     LOG_DEBUG << output.str();
@@ -88,15 +102,18 @@ void DebugDeque(const deque<Ty>& mm)
 {
     stringstream output;
     for (auto it = mm.begin(); it != mm.end(); ++it) {
+        output << to_string(*it) + " ";
+    }
+    LOG_DEBUG << output.str();
+}
+
+void DebugDeque(const deque<string>& mm)
+{
+    stringstream output;
+    for (auto it = mm.begin(); it != mm.end(); ++it) {
         output << *it + " ";
     }
     LOG_DEBUG << output.str();
-
-    string out;
-    for (auto it = mm.begin(); it != mm.end(); ++it) {
-        out += *it + " ";
-    }
-    LOG_DEBUG << out;
 }
 
 template<typename Ty>
@@ -145,7 +162,7 @@ void DebugMap(const map<Ty1, Ty2>& mm)
     stringstream output;
     for (auto& data : mm)
     {
-        output << data.first << " : " << data.second;
+        output << to_string(data.first) << " : " << to_string(data.second);
     }
     LOG_DEBUG << output.str();
 }
@@ -156,13 +173,12 @@ void DebugSet(const set<Ty>& mm)
     stringstream output;
     for (auto& data : mm)
     {
-        output << data << " ";
+        output << to_string(data) << " ";
     }
     LOG_DEBUG << output.str();
 }
 
-template<typename Ty1, typename Ty2>
-void DebugSet(const set<Ty1, Ty2>& mm)
+void DebugSet(const set<string>& mm)
 {
     stringstream output;
     for (auto& data : mm)
