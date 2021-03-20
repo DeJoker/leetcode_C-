@@ -14,6 +14,12 @@
 #include <unordered_map>
 #include <unordered_set>
 
+// 多线程
+#include <mutex>
+#include <condition_variable>
+#include <memory>
+#include <thread>
+#include <atomic>
 #include <future>
 
 #include <functional>
@@ -64,6 +70,42 @@ void PrintLogCallback(const char* file, int line, const char* func, int severity
 static bool callonce = (slog::SetLogCallBack(PrintLogCallback), true);
 
 using namespace std;
+
+
+
+// 实现一波信号量
+class semaphore {
+    int waits;
+    int n;
+    mutex m;
+    condition_variable cv;
+
+public:
+    semaphore(int n) {
+        this->n = n;
+        waits = 0;
+    }
+
+    void Wait() {
+        unique_lock<mutex> lk(m);
+        --n;
+        if (n < 0) {  // 资源量不够进入休眠
+            cv.wait(lk, [&](){ return waits>0; });
+            --waits; // 已被唤醒
+        }
+    }
+
+    void Signal() {
+        unique_lock<mutex> lk(m);
+        ++n;
+        if (n <= 0) { // 还有线程在睡眠？
+            ++waits;
+            cv.notify_one();
+        }
+    }
+};
+
+
 
 #include <cmath>
 
