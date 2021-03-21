@@ -1,6 +1,6 @@
 #include "create_tree.h"
 #include "pretty_tree.h"
-#include "../common/debugger.h"
+#include "../debugger.h"
 
 
 int main() {

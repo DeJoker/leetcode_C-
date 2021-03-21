@@ -29,6 +29,7 @@ public:
                 res.push_back(window.front());
 
                 // 这里怎么会nums.front() == nums[i-k+1] 运行与代码完全不一致呢
+                // 在这里应该是window.front() 。。。。
                 if (!window.empty() && window.front() == nums[i-k+1]) {
                     window.pop_front();
                 }
@@ -83,7 +84,7 @@ int main() {
     DebugVector(r);
 }
 
-同样解法
+// 同样解法
 
 class MonotonicQueue {
 private:

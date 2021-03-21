@@ -1,7 +1,7 @@
 #ifndef __DEBUGGER_H__
 #define __DEBUGGER_H__
 
-#include <iostream>
+#include <limits.h>
 #include <vector>
 #include <list>
 #include <set>
@@ -9,8 +9,6 @@
 #include <queue>
 #include <deque>
 #include <stack>
-#include <limits.h>
-
 #include <unordered_map>
 #include <unordered_set>
 
@@ -22,15 +20,13 @@
 #include <atomic>
 #include <future>
 
-#include <functional>
 #include <algorithm>
+
 #include "ticker.h"
+#include "util/list_util.h"
+#include "util/create_tree.h"
 
-#include "../util/list_util.h"
-#include "../util/create_tree.h"
 
-
-#include <sstream>
 #ifdef __linux
 #include <unistd.h>
 #include <sys/syscall.h> // gettid().
