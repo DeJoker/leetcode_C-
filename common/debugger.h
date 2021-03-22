@@ -21,6 +21,7 @@
 #include <future>
 
 #include <algorithm>
+#include <numeric>
 
 #include "ticker.h"
 #include "util/list_util.h"

@@ -11,6 +11,7 @@ public:
     bool isScramble(string s1, string s2) {
         int n=s1.size(), m=s2.size();
         if (n!=m) return false;
+        if (n==0) return true;
 
         vector<vector<vector<int>>> dp(n, vector<vector<int>>(m, vector<int>(n+1)));
         for(int i=0; i<n; i++)
@@ -38,3 +39,8 @@ public:
 };
 // @lc code=end
 
+int main() {
+    LOG_DEBUG << Solution().isScramble("great", "rgeat"); // true
+    LOG_DEBUG << Solution().isScramble("abcde", "caebd"); // false
+    LOG_DEBUG << Solution().isScramble("", "");
+}
