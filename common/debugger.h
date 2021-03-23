@@ -105,7 +105,16 @@ public:
     }
 };
 
-
+void DebugNode(ListNode* head)
+{
+    stringstream output;
+    ListNode* p(head);
+    while(p) {
+        output << p->val << "->";
+        p = p->next;
+    }
+    LOG_DEBUG << output.str();
+}
 
 #include <cmath>
 
@@ -119,6 +128,9 @@ void DebugVector(const vector<Ty>& mm)
     }
     LOG_DEBUG << output.str();
 }
+
+
+
 
 // 传入类型对函数重载和模板函数的全特化一样  （完全匹配）  则优先调用函数重载
 // 相当于全特化不会被调用

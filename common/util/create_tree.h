@@ -22,17 +22,6 @@ using namespace std;
 // 有重载不会调用全特化
 void DebugVector(const vector<std::string>& mm);
 
-/*
-struct TreeNode
-{
-    int val;
-    TreeNode *left;
-    TreeNode *right;
-    TreeNode() : val(-1), left(NULL), right(NULL) {}
-    TreeNode(int x) : val(x), left(NULL), right(NULL) {}
-   
-};
-*/
 
 inline vector<std::string> tokenize_str(const std::string & str, const std::string & delims)
 {
@@ -57,12 +46,7 @@ inline vector<std::string> tokenize_str(const std::string & str, const std::stri
     return tokens;
 }
 
-inline TreeNode* createNode(string integer)
-{
-    TreeNode* node = new TreeNode(std::atoi(integer.c_str()));
-    // cout << node->val << endl;
-    return node;
-}
+
 
 void CreatBiTree(TreeNode* T)
 { // 先序递归创建二叉树
@@ -80,6 +64,13 @@ void CreatBiTree(TreeNode* T)
             CreatBiTree(T->right);
         }
     }
+}
+
+inline TreeNode* createNode(string integer)
+{
+    TreeNode* node = new TreeNode(std::atoi(integer.c_str()));
+    // cout << node->val << endl;
+    return node;
 }
 
 TreeNode* CreateTreeNode(string aa)
