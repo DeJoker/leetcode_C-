@@ -74,6 +74,42 @@ public:
 };
 
 
+class SolutionStateCompress {
+void dfs(int n, int row, int col, int ld, int rd, vector<int>& pick, vector<vector<string>>& ans) {
+    if (row == n) {
+        vector<string> str(n, string(n, '.'));
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                if (pick[i] & (1 << j)) {
+                    str[i][j] = 'Q';
+                    break;
+                }
+            }
+        }
+        ans.push_back(str);
+        return;
+    }
+
+    int pos = ~(col | ld | rd) & ((1 << n) - 1);
+    while (pos != 0) {
+        pick[row] = (pos & -pos);
+        dfs(n, row + 1, (col | pick[row]), ((ld | pick[row]) << 1), ((rd | pick[row]) >> 1), pick, ans);
+        pos &= (pos - 1);
+    }
+}
+
+vector<vector<string>> solveNQueens(int n) {
+    vector<vector<string>> ans;
+    vector<int> pick(n, 0);
+    dfs(n, 0, 0, 0, 0, pick, ans);
+    return ans;
+}
+};
+
+
+// 状态压缩版本看不懂
+// https://leetcode-cn.com/problems/n-queens/solution/51-by-ikaruga/
+
 // @lc code=end
 
 int main()
