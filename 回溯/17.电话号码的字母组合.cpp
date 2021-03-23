@@ -24,8 +24,8 @@ public:
         if (n==0) return {};
         vector<string> res;
 
-        std::function<void(int, string&)> dfs;
-        dfs = [&](int i, string& path) {
+        std::function<void(int, string&)> backtack;
+        backtack = [&](int i, string& path) {
             if (path.size()==n) {
                 res.push_back(path);
                 return;
@@ -34,14 +34,14 @@ public:
             for(; i<n; i++) {
                 for(auto c : mp[digits[i]]) {
                     path.push_back(c);
-                    dfs(i+1, path);
+                    backtack(i+1, path);
                     path.pop_back();
                 }
             }
         };
         
         string p;
-        dfs(0, p);
+        backtack(0, p);
         return res;
     }
 };
@@ -58,8 +58,8 @@ public:
         if (n==0) return {};
         vector<string> res;
 
-        std::function<void(int, string&)> dfs;
-        dfs = [&](int i, string& path) {
+        std::function<void(int, string&)> backtack;
+        backtack = [&](int i, string& path) {
             if (i==n) {
                 res.push_back(path);
                 return;
@@ -68,14 +68,14 @@ public:
             for(int i=0; i<=n; i++) {
                 for(auto c : mp[digits[i]]) {
                     path.push_back(c);
-                    dfs(i, path);
+                    backtack(i, path);
                     path.pop_back();
                 }
             }
         };
         
         string p;
-        dfs(0, p);
+        backtack(0, p);
         return res;
     }
 };

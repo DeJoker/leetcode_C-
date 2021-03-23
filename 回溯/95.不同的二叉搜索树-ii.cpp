@@ -19,15 +19,15 @@
  */
 class Solution {
 public:
-    vector<TreeNode*> dfs(int start, int last) {
+    vector<TreeNode*> backtack(int start, int last) {
         if (start > last) {
             // 最后记得   base case 一定要返回空指针数组
             return {nullptr};
         }
         vector<TreeNode*> res;
         for(int i=start; i<=last; ++i) {
-            vector<TreeNode*> left = dfs(start, i-1);
-            vector<TreeNode*> right = dfs(i+1, last);
+            vector<TreeNode*> left = backtack(start, i-1);
+            vector<TreeNode*> right = backtack(i+1, last);
             for(auto& lf : left) {
                 for(auto& rg : right) {
                     TreeNode* root = new TreeNode(i);
@@ -44,7 +44,7 @@ public:
         if (!n) {
             return {};
         }
-        return dfs(1, n);
+        return backtack(1, n);
     }
 };
 // @lc code=end

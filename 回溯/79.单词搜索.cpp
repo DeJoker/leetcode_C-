@@ -8,7 +8,7 @@
 
 // @lc code=start
 
-// 应该直接使用dfs返回值，因为是整体遍历结束完全匹配，不存在中间过程达到目标强制返回
+// 应该直接使用backtack返回值，因为是整体遍历结束完全匹配，不存在中间过程达到目标强制返回
 class Solution {
 public:
     bool exist(vector<vector<char>>& board, string word) {
@@ -19,8 +19,8 @@ public:
 
         vector<pair<int,int>> dirct={{0,1},{0,-1},{1,0},{-1,0}};
 
-        std::function<bool(int row, int col, int pos)> dfs;
-        dfs = [&](int row, int col, int pos) {
+        std::function<bool(int row, int col, int pos)> backtack;
+        backtack = [&](int row, int col, int pos) {
             if (pos == word.size()-1) { // 这里是-1 比值
                 return true;
             }
@@ -35,7 +35,7 @@ public:
                     && !visit[nexti][nextj] && board[nexti][nextj] == word[pos+1]) 
                 // pos+1 跟下一个比所以是+1
                 {
-                    ret = dfs(nexti, nextj, pos+1);
+                    ret = backtack(nexti, nextj, pos+1);
                     if (ret) break;
                 }
             }
@@ -52,7 +52,7 @@ public:
         }
 
         for(auto& start : starts) {
-            bool res = dfs(start.first, start.second, 0);
+            bool res = backtack(start.first, start.second, 0);
             if (res)
                 return true;
         }
@@ -71,8 +71,8 @@ public:
 
         vector<pair<int,int>> dirct={{0,1},{0,-1},{1,0},{-1,0}};
 
-        std::function<void(int row, int col, int pos)> dfs;
-        dfs = [&](int row, int col, int pos) {
+        std::function<void(int row, int col, int pos)> backtack;
+        backtack = [&](int row, int col, int pos) {
             if (pos == word.size()-1) { // 这里是-1 比值
                 res=true;
                 return;
@@ -87,7 +87,7 @@ public:
                     && !visit[nexti][nextj] && board[nexti][nextj] == word[pos+1]) 
                 // pos+1 跟下一个比所以是+1
                 {
-                    dfs(nexti, nextj, pos+1);
+                    backtack(nexti, nextj, pos+1);
                 }
             }
             visit[row][col] = false;
@@ -102,7 +102,7 @@ public:
         }
 
         for(auto& start : starts) {
-            dfs(start.first, start.second, 0);
+            backtack(start.first, start.second, 0);
             if (res)
                 return true;
         }

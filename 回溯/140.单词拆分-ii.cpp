@@ -27,8 +27,8 @@ public:
 
         vector<string> res;
         // s[0:len) 如果可以拆分成 wordSet 中的单词，把递归求解的结果加入 res 中
-        std::function<void(int, vector<string>&)> dfs;
-        dfs = [&](int len, vector<string>& path) {
+        std::function<void(int, vector<string>&)> backtack;
+        backtack = [&](int len, vector<string>& path) {
             if (len == 0) {
                 string tmp;
                 for(auto it=path.rbegin(); it!=path.rend(); ++it) {
@@ -44,7 +44,7 @@ public:
                 string suf = s.substr(i, len-i);
                 if (dp[i] && words.find(suf)!=words.end()) {
                     path.push_back(suf);
-                    dfs(i, path); // 这里问什么是i不变，会导致死循环吗？
+                    backtack(i, path); // 这里问什么是i不变，会导致死循环吗？
                     // 不会；因为迭代的起始不是i而是i-1   用i是因为和dp数组下标对应
                     path.pop_back();
                 }
@@ -54,7 +54,7 @@ public:
 
         if (dp[n]) {
             vector<string> path;
-            dfs(n, path);
+            backtack(n, path);
         }
         return res;
     }

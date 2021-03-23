@@ -12,8 +12,8 @@ public:
         vector<vector<int>> res;
         int n=nums.size();
 
-        std::function<void(int, vector<int>&)> dfs;
-        dfs = [&](int start, vector<int>& path) {
+        std::function<void(int, vector<int>&)> backtack;
+        backtack = [&](int start, vector<int>& path) {
             if (start==n) {
                 res.push_back(path);
                 return;
@@ -21,12 +21,12 @@ public:
 
             for(int i=start; i<n; i++) {
                 swap(path[start], path[i]);
-                dfs(start+1, path); // 这里是first+1
+                backtack(start+1, path); // 这里是first+1
                 swap(path[start], path[i]);
             }
         };
 
-        dfs(0, nums);
+        backtack(0, nums);
         return res;
     }
 };

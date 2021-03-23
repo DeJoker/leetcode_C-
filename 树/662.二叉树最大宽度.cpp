@@ -18,15 +18,54 @@
  * };
  */
 
+
+
+// 关键在于如何缩减同层的数量，避免int溢出
+
+// 如何防止极端情况整数越界。有一个用例是线性的树，所以如果每层都乘以2很快就越界了
+// 我们采用每次进入新的一层的时候记录queue 头部的index - 1 作为delta
+// 这样每个坐标都减去delta重新调整为从1开始，而且保持相对位置关系不变，避免了越界。
+// 这样用int类型就可以了，否则unsigned long long 都不够用，照样越界
+class Solution {
+public:
+    int widthOfBinaryTree(TreeNode* root) {
+        if (!root) {
+            return 0;
+        }
+
+        int res = 1;
+        list<int> idxList = {1};     
+        queue<TreeNode*> q{{root}};
+        while (!q.empty()) {
+            // Adjust delta for each level to keep the relative diff between level nodes!
+            // to avoid integer overflow problem which doesn't exist in java and python
+            auto delta = idxList.front() - 1;
+            for (int k = q.size(); k > 0; k--) {
+                auto index = idxList.front(); idxList.pop_front();
+                index -= delta;
+                auto cur = q.front(); q.pop();
+                if (cur->left) {
+                    q.push(cur->left);
+                    idxList.push_back(index * 2);
+                }
+                if (cur->right) {
+                    q.push(cur->right);
+                    idxList.push_back(index * 2 + 1);
+                }
+            }
+            res = max(res, idxList.back() - idxList.front() + 1);
+        }
+
+        return res;
+    }
+};
+
+
 // 错误；另外可以不记录层数，一次将队列所有节点取出并添加下一层即可
 // 因为求得是宽度，不需要记录层数，内置循环把一层所有遍历完即可
 class Solution33 {
 public:
     size_t ans=0;
-
-    int dfs(TreeNode* node) {
-        
-    }
 
     int widthOfBinaryTree(TreeNode* root) {
         queue<pair<int, TreeNode*>> q;
@@ -98,45 +137,6 @@ public:
 };
 
 
-// 关键在于如何缩减同层的数量，避免int溢出
-
-// 如何防止极端情况整数越界。有一个用例是线性的树，所以如果每层都乘以2很快就越界了
-// 我们采用每次进入新的一层的时候记录queue 头部的index - 1 作为delta
-// 这样每个坐标都减去delta重新调整为从1开始，而且保持相对位置关系不变，避免了越界。
-// 这样用int类型就可以了，否则unsigned long long 都不够用，照样越界
-class Solution {
-public:
-    int widthOfBinaryTree(TreeNode* root) {
-        if (!root) {
-            return 0;
-        }
-
-        int res = 1;
-        list<int> idxList = {1};     
-        queue<TreeNode*> q{{root}};
-        while (!q.empty()) {
-            // Adjust delta for each level to keep the relative diff between level nodes!
-            // to avoid integer overflow problem which doesn't exist in java and python
-            auto delta = idxList.front() - 1;
-            for (int k = q.size(); k > 0; k--) {
-                auto index = idxList.front(); idxList.pop_front();
-                index -= delta;
-                auto cur = q.front(); q.pop();
-                if (cur->left) {
-                    q.push(cur->left);
-                    idxList.push_back(index * 2);
-                }
-                if (cur->right) {
-                    q.push(cur->right);
-                    idxList.push_back(index * 2 + 1);
-                }
-            }
-            res = max(res, idxList.back() - idxList.front() + 1);
-        }
-
-        return res;
-    }
-};
 
 
 // @lc code=end

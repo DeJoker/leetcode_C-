@@ -11,30 +11,31 @@ public:
     vector<string> generateParenthesis(int n) {
         vector<string> res;
 
-        std::function<void(int, int, string&)> dfs;
-        dfs = [&](int lf, int rg, string& path) {
+        std::function<void(int, int, string&)> backtack;
+        backtack = [&](int lf, int rg, string& path) {
             if (rg<lf) { // 当前右括号更多，非法字符
                 return;
             }
             if (rg==0 && lf==0) {
                 res.push_back(path);
+                return;
             }
 
             if (lf>0) {
                 path.push_back('(');
-                dfs(lf-1, rg, path);
+                backtack(lf-1, rg, path);
                 path.pop_back();
             }
 
             if (rg>0) {
                 path.push_back(')');
-                dfs(lf, rg-1, path);
+                backtack(lf, rg-1, path);
                 path.pop_back();
             }
         };
 
         string p;
-        dfs(n, n, p);
+        backtack(n, n, p);
         return res;
     }
 };

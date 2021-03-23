@@ -31,11 +31,11 @@
 //         }
 
 //         Deque<String> stack = new ArrayDeque<>();
-//         dfs(s, 0, len, dp, stack, res);
+//         backtack(s, 0, len, dp, stack, res);
 //         return res;
 //     }
 
-//     private void dfs(String s, int index, int len, boolean[][] dp, Deque<String> path, List<List<String>> res) {
+//     private void backtack(String s, int index, int len, boolean[][] dp, Deque<String> path, List<List<String>> res) {
 //         if (index == len) {
 //             res.add(new ArrayList<>(path));
 //             return;
@@ -44,7 +44,7 @@
 //         for (int i = index; i < len; i++) {
 //             if (dp[index][i]) {
 //                 path.addLast(s.substring(index, i + 1));
-//                 dfs(s, i + 1, len, dp, path, res);
+//                 backtack(s, i + 1, len, dp, path, res);
 //                 path.removeLast();
 //             }
 //         }
@@ -71,8 +71,8 @@ public:
             }
         }
 
-        std::function<void(vector<string>&, int)> dfs;
-        dfs = [&](vector<string>& path, int idx) {
+        std::function<void(vector<string>&, int)> backtack;
+        backtack = [&](vector<string>& path, int idx) {
             if (idx == n) {
                 res.push_back(path);
                 return;
@@ -81,13 +81,13 @@ public:
             for(int i=idx; i<n; i++) {
                 if (dp[idx][i]) {
                     path.push_back(s.substr(idx, i-idx+1));
-                    dfs(path, i+1);
+                    backtack(path, i+1);
                     path.pop_back();
                 }
             }
         };
         vector<string> p;
-        dfs(p, 0);
+        backtack(p, 0);
         return res;
     }
 };

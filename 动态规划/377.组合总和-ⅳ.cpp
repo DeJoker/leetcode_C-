@@ -30,8 +30,8 @@ public:
 
 
         // int ans(0);
-        // std::function<void(int sum, int idx)> dfs;
-        // dfs = [&](int sum, int idx) {
+        // std::function<void(int sum, int idx)> backtrack;
+        // backtrack = [&](int sum, int idx) {
         //     if (sum==target) {
         //         ++ans;
         //         return;
@@ -42,11 +42,11 @@ public:
 
         //     for(int i=idx; i<nums.size(); i++) {
         //         sum += nums[i];
-        //         dfs(sum, i);
+        //         backtrack(sum, i);
         //         sum -= nums[i];
         //     }
         // };
-        // dfs(0, 0);
+        // backtrack(0, 0);
         // return ans;
 
 

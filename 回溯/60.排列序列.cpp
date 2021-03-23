@@ -15,8 +15,8 @@ public:
         }
         int cur=0;
 
-        std::function<void(int, string&)> dfs;
-        dfs = [&](int start, string& path) {
+        std::function<void(int, string&)> backtack;
+        backtack = [&](int start, string& path) {
             if (start==n) {
                 ++cur;
                 if (cur == k) {
@@ -27,12 +27,12 @@ public:
             
             for(int i=start; i<n && res.empty(); i++) {
                 swap(s[start], s[i]);
-                dfs(start+1, path);
+                backtack(start+1, path);
                 swap(s[start], s[i]);
             }
         };
 
-        dfs(0, s);
+        backtack(0, s);
         return res;
     }
 };

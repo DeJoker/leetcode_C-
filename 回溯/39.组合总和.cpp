@@ -11,8 +11,8 @@ public:
     vector<vector<int>> combinationSum(vector<int>& candidates, int target) {
         vector<vector<int>> ans;
 
-        std::function<void(vector<int>&, int, int)> dfs;
-        dfs = [&](vector<int>& path, int sum, int idx) {
+        std::function<void(vector<int>&, int, int)> backtack;
+        backtack = [&](vector<int>& path, int sum, int idx) {
             if (sum == target) {
                 ans.push_back(path);
                 return;
@@ -22,18 +22,18 @@ public:
             }
 
             // 跳过
-            dfs(path, sum, idx+1);
+            backtack(path, sum, idx+1);
 
             // 选择当前值
             if (sum+candidates[idx] <= target) {
                 path.push_back(candidates[idx]);
-                dfs(path, sum+candidates[idx], idx); // 为什么这里不idx+1呢
+                backtack(path, sum+candidates[idx], idx); // 为什么这里不idx+1呢
                 path.pop_back();
             }
         };
 
         vector<int> p;
-        dfs(p, 0, 0);
+        backtack(p, 0, 0);
         return ans;
     }
 };

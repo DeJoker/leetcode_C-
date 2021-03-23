@@ -14,8 +14,8 @@ public:
     vector<vector<int>> combinationSum2(vector<int>& candidates, int target) {
         vector<vector<int>> ans;
 
-        std::function<void(vector<int>& path, int sum, int idx)> dfs;
-        dfs = [&](vector<int>& path, int sum, int idx) {
+        std::function<void(vector<int>& path, int sum, int idx)> backtack;
+        backtack = [&](vector<int>& path, int sum, int idx) {
             if (sum==target) {
                 ans.push_back(path);
                 return;
@@ -35,7 +35,7 @@ public:
                     continue;
                 }
                 path.push_back(candidates[i]);
-                dfs(path, sum+candidates[i], i+1);
+                backtack(path, sum+candidates[i], i+1);
                 path.pop_back();
             }
         };
@@ -44,7 +44,7 @@ public:
         sort(candidates.begin(), candidates.end());
 
         vector<int> p;
-        dfs(p, 0, 0);
+        backtack(p, 0, 0);
         return ans;
     }
 };
@@ -55,8 +55,8 @@ public:
     vector<vector<int>> combinationSum2(vector<int>& candidates, int target) {
         vector<vector<int>> ans;
 
-        std::function<void(vector<int>& path, int sum, int idx)> dfs;
-        dfs = [&](vector<int>& path, int sum, int idx) {
+        std::function<void(vector<int>& path, int sum, int idx)> backtack;
+        backtack = [&](vector<int>& path, int sum, int idx) {
             if (idx==candidates.size() || sum>target) {
                 return;
             }
@@ -70,13 +70,13 @@ public:
 
             for(int i=idx; i<candidates.size(); i++) {
                 path.push_back(candidates[i]);
-                dfs(path, sum+candidates[i], i+1);
+                backtack(path, sum+candidates[i], i+1);
                 path.pop_back();
             }
         };
 
         vector<int> p;
-        dfs(p, 0, 0);
+        backtack(p, 0, 0);
         return ans;
     }
 };

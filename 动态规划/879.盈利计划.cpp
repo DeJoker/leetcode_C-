@@ -79,8 +79,8 @@ public:
         const int N=group.size();
         vector<vector<vector<int>>> d(N+1,vector<vector<int>>(n+1,vector<int>(minProfit+1,-1)));
         
-        std::function<int(int, int, int)> dfs;
-        dfs = [&](int cur, int g, int p) {
+        std::function<int(int, int, int)> backtrack;
+        backtrack = [&](int cur, int g, int p) {
             if(cur >= N){
                 if(p == minProfit) {
                     return 1;
@@ -93,17 +93,17 @@ public:
                 return ans;
             }
 
-            int a = dfs(cur+1, g, p);
+            int a = backtrack(cur+1, g, p);
             int b=0;
             if(g >= group[cur]){
-                b=dfs(cur+1, g-group[cur], std::min(minProfit, p+profit[cur]));
+                b=backtrack(cur+1, g-group[cur], std::min(minProfit, p+profit[cur]));
             }
 
             ans=(a+b) % MOD;
             return ans;
         };
 
-        return dfs(0,n,0);
+        return backtrack(0,n,0);
     }
 };
 
