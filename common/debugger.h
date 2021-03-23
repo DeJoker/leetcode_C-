@@ -1,6 +1,9 @@
 #ifndef __DEBUGGER_H__
 #define __DEBUGGER_H__
 
+// STL的所有头文件
+#include <bits/stdc++.h>
+
 #include <limits.h>
 #include <vector>
 #include <list>
@@ -21,7 +24,7 @@
 #include <future>
 
 #include <algorithm>
-#include <numeric>
+#include <numeric> // accumulate
 
 #include "ticker.h"
 #include "util/list_util.h"
