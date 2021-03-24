@@ -46,31 +46,36 @@ public:
 class Solution {
 public:
     void mergeSort(vector<int>& nums, int left, int right, vector<int>& temp) {
-        if (left + 1 >= right) return;
+        if (left >= right) return;
         int mid = left + (right - left) / 2;
         mergeSort(nums, left, mid, temp);
-        mergeSort(nums, mid, right, temp);
+        mergeSort(nums, mid+1, right, temp);
 
         // 合并区间到tmp，三个数组三个下标
-        int p = left, q = mid, i = left;
-        while (p < mid || q < right) {
-            // q >= right 代表右侧数据填充完毕
-            if (q >= right || (p < mid && nums[p] < nums[q])) {
-                temp[i++] = nums[p++];
+        int p = left, q = mid+1, pos = left;
+        while (pos <= right) {
+            if (p > mid) {
+                temp[pos++] = nums[q++];
+            } else if (q > right) {
+                temp[pos++] = nums[p++];
             } else {
-                temp[i++] = nums[q++];
+                if (nums[p] < nums[q]) {
+                    temp[pos++] = nums[p++];
+                } else {
+                    temp[pos++] = nums[q++];
+                }
             }
         }
 
-        for (int i = left; i < right; i++) {
-            nums[i] = temp[i];
+        for (int k = left; k <= right; k++) {
+            nums[k] = temp[k];
         }
     }
 
     vector<int> sortArray(vector<int>& nums) {
         int n=nums.size();
         vector<int> tmp(n);
-        mergeSort(nums, 0, n, tmp);
+        mergeSort(nums, 0, n-1, tmp);
         return nums;
     }
 };

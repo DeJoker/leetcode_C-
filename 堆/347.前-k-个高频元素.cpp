@@ -6,7 +6,65 @@
 #include "../common/debugger.h"
 
 // @lc code=start
+
+
+
 class Solution {
+public:
+    void ShiftUp(vector<pair<int, int>>& heap, int last) {
+        int son=last, dad=(last-1)/2;
+        while (dad >= 0) {  // >= 跟Down一样因为这里有-1，而且向上肯定要遍历dad情况
+            if (heap[son].second >= heap[dad].second) break;
+
+            swap(heap[son], heap[dad]);
+            son=dad; dad=(son-1)/2; 
+        }
+    }
+
+    // 小顶堆
+    void ShiftDown(vector<pair<int, int>>& heap, int start, int last) {
+        int dad=start, son=2*start+1;
+        while(son <= last) {
+            if (son+1 <= last && heap[son+1].second < heap[son].second) ++son;
+            if (heap[son].second >= heap[dad].second) break;
+
+            swap(heap[son], heap[dad]);
+            dad=son; son=2*dad+1;
+        }
+    }
+
+    vector<int> topKFrequent(vector<int>& nums, int k) {
+        map<int, int> occurrences;
+        for (auto& v : nums) {
+            occurrences[v]++;
+        }
+
+        vector<pair<int, int>> heap;
+
+        for(auto kv : occurrences) {
+            if (heap.size() < k) {
+                heap.push_back(kv);
+                // 新插入是往上调整。。。。。。。
+                    ShiftUp(heap, heap.size()-1);
+            } else {
+                if (kv.second > heap[0].second) {
+                    heap[0] = kv;
+                // 后调整是往下。。。。。。。
+                ShiftDown(heap, 0, heap.size()-1);
+                }
+            }
+        }
+
+        vector<int> res;
+        for(auto [fir, sec] : heap) {
+            res.push_back(fir);
+        }
+        return res;
+    }
+};
+
+
+class Solution2 {
 public:
     static bool cmp(pair<int, int>& m, pair<int, int>& n) {
         return m.second > n.second;
@@ -42,66 +100,13 @@ public:
 
 // @lc code=end
 
-class Solution222;
 
 
 
-class Solution222 {
-public:
-    void sift_up(vector<vector<int>> &heap, int chlid){
-        vector<int> val = heap[chlid];
-        while (chlid >> 1 > 0 && val[1] < heap[chlid>>1][1]){
-            heap[chlid] = heap[chlid>>1];
-            chlid >>= 1;
-        heap[chlid] = val;
-        }
-    }
-
-    void sift_down(vector<vector<int>> &heap, int root, int k){
-        vector<int> val = heap[root];
-        while (root << 1 < k){
-            int chlid = root << 1;
-            // 注意这里位运算优先级要加括号
-            if ((chlid|1) < k && heap[chlid|1][1] < heap[chlid][1]) chlid |= 1;
-            if (heap[chlid][1] < val[1]){
-                heap[root] = heap[chlid];
-                root = chlid;
-            }
-            else break;
-        }
-        heap[root] = val;
-    }
-
-    vector<int> topKFrequent(vector<int>& nums, int k) {
-        unordered_map<int, int> stat;
-        for (auto &num : nums) stat[num]++;
-        vector<vector<int>> vec_stat;
-        for (auto &item : stat) vec_stat.push_back({item.first, item.second});
-
-        vector<vector<int>> heap;
-        heap.push_back({0, 0});
-        for (int i = 0; i < k; i++){
-            heap.push_back(vec_stat[i]);
-            sift_up(heap, heap.size()-1);
-        }
-
-        for (int i = k; i < vec_stat.size(); i++){
-            if (vec_stat[i][1] > heap[1][1]){
-                heap[1] = vec_stat[i];
-                sift_down(heap, 1, k+1);
-            }
-        }
-
-        vector<int> result;
-        for (int i = 1; i < k+1; i++) result.push_back(heap[i][0]);
-        return result;
-    }
-};
-
-
-
+// 数组内不需要有序，保证是k个高频就行了，不一定首元素最高频
 int main() {
     vector<int> p, r;
+
     p = {1,1,1,2,2,3}; // p,3      1,2
     r = Solution().topKFrequent(p, 2);
     DebugVector(r);
@@ -112,11 +117,22 @@ int main() {
 
 
     p = {1,1,1,2,2,3}; // p,3      1,2
-    r = Solution222().topKFrequent(p, 2);
+    r = Solution().topKFrequent(p, 2);
     DebugVector(r);
 
     p = {1,}; // p,1      1
-    r = Solution222().topKFrequent(p, 1);
+    r = Solution().topKFrequent(p, 1);
+    DebugVector(r);
+
+
+    // ShiftUp 写了dad>0 忽略了dad=0
+    p = {5,2,5,3,5,3,1,1,3}; // p,1      5,3
+    r = Solution().topKFrequent(p, 2);
+    DebugVector(r);
+
+    // 插入是shiftUp、交换新元素是shiftDown
+    p = {-1,1,4,-4,3,5,4,-2,3,-1}; // p,3     4,3,-1
+    r = Solution().topKFrequent(p, 3);
     DebugVector(r);
 }
 

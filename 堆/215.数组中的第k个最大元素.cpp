@@ -35,6 +35,8 @@ public:
 // swap
 class Solution {
 public:
+    // 小顶堆
+
     void ShiftUp(vector<int>& heap, int son) { // son相当于新加入的，调整到合适位置
         int dad=(son-1)/2;
         while (dad>=0) { // 因为是新加入原来的已经有序，因此这里如果到合理位置立即结束
