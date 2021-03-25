@@ -5,6 +5,8 @@
  */
 #include "../common/debugger.h"
 
+// 以i结尾的最长序列
+
 // @lc code=start
 class Solution {
 public:

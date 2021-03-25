@@ -86,6 +86,7 @@ public:
         mergeSort(nums, mid+1, right, temp);
 
         // 合并区间到tmp，三个数组三个下标
+        // 记得q是mid+1 和递归mergesort的右侧区间一样
         int p = left, q = mid+1, pos = left;
         while (pos <= right) {
             if (p > mid) {
