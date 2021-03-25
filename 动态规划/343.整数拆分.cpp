@@ -5,6 +5,8 @@
  */
 #include "../common/debugger.h"
 
+// 将一个数字拆分为多项相乘，让乘积最大
+
 // @lc code=start
 
 // dp[i] = max(dp[i-j]*j);

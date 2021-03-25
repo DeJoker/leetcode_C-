@@ -5,6 +5,8 @@
  */
 #include "../common/debugger.h"
 
+// 石头相撞，最小剩余大小
+
 // @lc code=start
 
 // 分为两组，组间差距最小即可
