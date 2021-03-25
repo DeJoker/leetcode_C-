@@ -6,7 +6,7 @@
 #include "../common/debugger.h"
 
 // @lc code=start
-class SolutionDP {
+class Solution {
 public:
     string longestPalindrome(string s) {
         int n=s.size();
@@ -17,6 +17,9 @@ public:
         // len==0相当于初始化
         // len==1是base case
         // len+1是真字符长度
+
+        // 为什么dp[i+1][j-1] 这个部分可以使用呢？？
+        // 因为是斜着遍历，初始会使用初始为false这一右斜列，而通过len规避就可以使用到全为true，len=0这斜列了
         for(int len=0; len<n; len++) {
             for(int i=0; i+len<n; i++) {
                 int j=i+len;
@@ -38,7 +41,7 @@ public:
 };
 
 
-class Solution {
+class Solution2 {
 public:
     pair<int, int> expandAroundCenter(const string& s, int left, int right) {
         while (left >= 0 && right < s.size() && s[left] == s[right]) {
