@@ -5,7 +5,12 @@
  */
 #include "../common/debugger.h"
 
+// 请你找出 nums1 中每个元素在 nums2 中的下一个比其大的值
+
 // @lc code=start
+
+// 对nums2进行单调栈扫描，然后记录下一个更大元素
+// 遇到更大元素弹出处理，递减栈
 
 class Solution {
 public:

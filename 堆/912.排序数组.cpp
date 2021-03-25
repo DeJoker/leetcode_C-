@@ -42,8 +42,42 @@ public:
 };
 
 
-// Merge
+
+
 class Solution {
+public:
+    void QuickSort(vector<int>& nums, int left, int right) {
+        if (left >= right) return;
+
+        int primary = (rand()%(right-left+1))+left;
+        swap(nums[primary], nums[right]);
+        // 交换后这里应该取right位
+        int pivot = nums[right]; 
+        // partition
+        int pos(left);
+        for(int i=left; i<right; i++) {
+            if (nums[i] <= pivot) {
+                swap(nums[i], nums[pos]);
+                ++pos;
+            }
+        }
+        swap(nums[pos], nums[right]);
+
+        // 注意不包括pos
+        QuickSort(nums, left, pos-1);
+        QuickSort(nums, pos+1, right);
+    }
+    vector<int> sortArray(vector<int>& nums) {
+        srand(time(NULL));
+        QuickSort(nums, 0, nums.size()-1);
+        return nums;
+    }
+};
+
+
+
+// Merge
+class SolutionMerge {
 public:
     void mergeSort(vector<int>& nums, int left, int right, vector<int>& temp) {
         if (left >= right) return;

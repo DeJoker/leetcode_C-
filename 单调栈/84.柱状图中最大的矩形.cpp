@@ -16,14 +16,14 @@ public:
         heights.insert(heights.begin(), -1);
         heights.push_back(-1); // 需要所有数据最后都出栈
 
-        stack<int> s;
+        stack<int> st;
         int res(0);
         for(int i=0; i<heights.size(); i++) {
-            while(!s.empty() && heights[s.top()] > heights[i]) {
-                int t=s.top(); s.pop();
-                res = max(res, (i-s.top()-1)*heights[t]);
+            while(!st.empty() && heights[st.top()] > heights[i]) {
+                int t=st.top(); st.pop();
+                res = max(res, (i-st.top()-1)*heights[t]);
             }
-            s.push(i);
+            st.push(i);
         }
         return res;
     }

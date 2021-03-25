@@ -130,7 +130,7 @@ int main() {
     r = Solution().topKFrequent(p, 2);
     DebugVector(r);
 
-    // 插入是shiftUp、交换新元素是shiftDown
+    // 插入是shiftUp（每次push元素都是在最后，因此肯定往上调整）、交换新元素是shiftDown
     p = {-1,1,4,-4,3,5,4,-2,3,-1}; // p,3     4,3,-1
     r = Solution().topKFrequent(p, 3);
     DebugVector(r);

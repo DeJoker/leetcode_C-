@@ -5,13 +5,17 @@
  */
 #include "../common/debugger.h"
 
+
+// 移除这个数中的 k 位数字，使得剩下的数字最小
+
 // @lc code=start
 
-// 递增栈
+// 为了让值最小，递减栈，遇到大的立即弹出
+
 class Solution {
 public:
     string removeKdigits(string num, int k) {
-        // stack<char> st;
+        // stack<char> st; // stack没有迭代器
         vector<char> st;
         for(int i=0; i<num.size(); i++) {
             while(!st.empty() && st.back() > num[i] && k) {

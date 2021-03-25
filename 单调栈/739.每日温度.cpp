@@ -7,22 +7,24 @@
 
 // @lc code=start
 
-// 递减
+
+// 要想观测到更高的气温，至少需要等待的天数。如果气温在这之后都不会升高，请在该位置用 0 来代替
+// 遇到更大的就弹出并算举例、递减栈
 class Solution {
 public:
     vector<int> dailyTemperatures(vector<int>& T) {
-        stack<int> s;
+        stack<int> st;
         vector<int> res(T.size());
         for(int i=0; i<T.size(); i++) {
-            while(!s.empty() && T[s.top()] < T[i]) {
-                res[s.top()] = i-s.top();
-                s.pop();
+            while(!st.empty() && T[st.top()] < T[i]) {
+                res[st.top()] = i-st.top();
+                st.pop();
             }
-            s.push(i);
+            st.push(i);
         }
-        while(!s.empty()) {
-            res[s.top()] = 0;
-            s.pop();
+        while(!st.empty()) {
+            res[st.top()] = 0;
+            st.pop();
         }
         return res;
     }

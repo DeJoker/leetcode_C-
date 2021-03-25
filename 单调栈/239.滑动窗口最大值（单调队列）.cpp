@@ -7,32 +7,36 @@
 
 // @lc code=start
 
+// front 是最大值
+// 维护递减队列（头就可以保证是最大），遇到大的弹出
 class Solution {
 public:
     vector<int> maxSlidingWindow(vector<int>& nums, int k) {
         int n=nums.size();
         deque<int> window;
         
+        auto windowPush = [&](int i) {
+            while(!window.empty() && window.back() < nums[i])
+                window.pop_back();
+            window.push_back(nums[i]);
+        };
+
+        auto windowPop = [&](int i) {
+            if (!window.empty() && window.front() == nums[i-k+1]) {
+                window.pop_front();
+            }
+        };
+
         vector<int> res;
         for(int i=0; i<n; i++) {
             if (i<k-1) {
-                while(!window.empty() && window.back() < nums[i])
-                    window.pop_back();
-                window.push_back(nums[i]);
+                windowPush(i);
             } else {
-                // DebugDeque(window);
-
-                while(!window.empty() && window.back() < nums[i])
-                    window.pop_back();
-                window.push_back(nums[i]);
+                windowPush(i);
 
                 res.push_back(window.front());
 
-                // 这里怎么会nums.front() == nums[i-k+1] 运行与代码完全不一致呢
-                // 在这里应该是window.front() 。。。。
-                if (!window.empty() && window.front() == nums[i-k+1]) {
-                    window.pop_front();
-                }
+                windowPop(i);
             }
         }
 

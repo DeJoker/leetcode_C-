@@ -39,9 +39,11 @@ public:
     void put(int key, int value) {
         auto node = make_pair(key, value);
         // 还要考虑等值的情况
-        if (mp.find(key) != mp.end())
+        if (mp.find(key) != mp.end()) {
+            recent.erase(mp[key]);
             mp.erase(key);
-        else if (mp.size() == cap) {
+        } else if (mp.size() == cap) {
+            // list为什么需要是pair的原因：弹出头要把mp对应的删除
             auto last = *recent.rbegin();
             mp.erase(last.first);
             recent.pop_back();

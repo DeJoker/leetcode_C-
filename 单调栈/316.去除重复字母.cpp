@@ -5,9 +5,16 @@
  */
 #include "../common/debugger.h"
 
-// @lc code=start
-// 栈内递增，递减弹出
+// 给你一个字符串 s ，请你去除字符串中重复的字母，使得每个字母只出现一次。需保证 返回结果的字典序最小
+// （要求不能打乱其他字符的相对位置）
 
+// @lc code=start
+
+
+// 要求字典序自增，就是栈内递增，遇到小的弹出
+
+// vis代表栈中是否存在该字符，存在则不能加入
+// num代表后面位置还是否存在，没有则不能弹出（存在才能弹出）
 class Solution {
 public:
     string removeDuplicateLetters(string s) {
