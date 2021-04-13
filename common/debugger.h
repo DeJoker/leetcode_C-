@@ -129,7 +129,15 @@ void DebugVector(const vector<Ty>& mm)
     LOG_DEBUG << output.str();
 }
 
-
+void DebugVector(const vector<char>& mm)
+{
+    stringstream output;
+    for (auto& data : mm)
+    {
+        output << data << ", ";
+    }
+    LOG_DEBUG << output.str();
+}
 
 
 // 传入类型对函数重载和模板函数的全特化一样  （完全匹配）  则优先调用函数重载
@@ -141,6 +149,7 @@ template<>
 void DebugVector<std::string>(const vector<std::string>& mm)
 {
     stringstream output;
+    output << "template ";
     for (auto& data : mm)
     {
         output << data << ", ";
@@ -152,6 +161,7 @@ void DebugVector<std::string>(const vector<std::string>& mm)
 void DebugVector(const vector<std::string>& mm)
 {
     stringstream output;
+    output << "template overload ";
     for (auto& data : mm)
     {
         output << data << ", ";
