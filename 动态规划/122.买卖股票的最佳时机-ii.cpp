@@ -6,7 +6,24 @@
 
 #include "../common/debugger.h"
 // @lc code=start
+
+
+// 4 ms   12.7 MB
 class Solution {
+public:
+    int maxProfit(vector<int>& prices) {
+        int n=prices.size();
+
+        int hold(-prices[0]), unhold(0);
+        for(int i=1; i<n; i++) {
+            unhold = max(unhold, hold+prices[i]);
+            hold = max(hold, unhold-prices[i]);
+        }
+        return unhold;
+    }
+};
+
+class Solution33 {
 public:
     int maxProfit(vector<int>& prices) {
         int n=prices.size();
@@ -24,9 +41,9 @@ public:
 int main() {
     vector<int> p;
     p = {7,1,5,3,6,4};
-    LOG_DEBUG << Solution().maxProfit(p);
+    LOG_DEBUG << Solution().maxProfit(p); // 7
     p = {1,2,3,4,5};
-    LOG_DEBUG << Solution().maxProfit(p);
+    LOG_DEBUG << Solution().maxProfit(p); // 4
     p = {7,6,4,3,1};
-    LOG_DEBUG << Solution().maxProfit(p);
+    LOG_DEBUG << Solution().maxProfit(p); // 0
 }

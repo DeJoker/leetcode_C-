@@ -16,6 +16,8 @@
 // };
 
 
+// 选一个小集合然后画递归树       画出递归树是最重要的
+
 
 // 0ms 7MB
 class Solution {
@@ -72,7 +74,7 @@ int main() {
     vector<int> a{1,2,3};
     vector<vector<int>> pp;
 
-    pp = Solution33().subsets(a);
+    pp = Solution().subsets(a);
     DebugPlanarVector(pp);
 
     pp = Solution44().subsets(a);

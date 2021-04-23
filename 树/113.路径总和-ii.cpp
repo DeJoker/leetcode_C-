@@ -17,7 +17,40 @@
  *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
  * };
  */
+
+
+// 12 ms 19.7MB
 class Solution {
+public:
+    vector<vector<int>> pathSum(TreeNode* root, int targetSum) {
+        vector<int> path;
+        vector<vector<int>> res;
+
+        // root to current node sum value
+        std::function<void(vector<int>& path, TreeNode* node, int sum)> dfs;
+        dfs = [&](vector<int>& path, TreeNode* node, int sum) {
+            if (!node) return;
+            
+            path.push_back(node->val);
+            sum += node->val;
+            dfs(path, node->left, sum);
+            dfs(path, node->right, sum);
+
+            if (!node->left && !node->right) {
+                if (sum == targetSum) {
+                    res.push_back(path);
+                }
+            }
+            
+            path.pop_back();
+        };
+        
+        dfs(path, root, 0);
+        return res;
+    }
+};
+
+class Solution222 {
 public:
     vector<vector<int>> maxPaths;
     int Sum;
@@ -51,6 +84,6 @@ public:
 
 int main() {
     auto node = stringToTreeNode("[5,4,8,11,null,13,4,7,2,null,null,5,1]");
-    auto kk = Solution().pathSum(node, 22);
+    auto kk = Solution().pathSum(node, 22); // [[5,4,11,2],[5,8,4,5]]
     DebugPlanarVector(kk);
 }
