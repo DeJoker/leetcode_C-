@@ -107,12 +107,12 @@ private:
 
 // wrapper logger
 // #define WLOG(level, file, function, line) if (elog::GetLogLevel() <= level) slog::LogMessage(file, line, function, level)
-#define WLOG(level, file, function, line) slog::LogMessage(file, line, function, level)
+#define WLOG(level, file, line, function) slog::LogMessage(just_get_name(file), line, function, level, GlobalVar<SLogCallBack>::VAR).stream()
 
-#define WLTRACE WLOG(MLOG_DEBUG, file, function, line)
-#define WLDEBUG WLOG(MLOG_INFO, file, function, line)
-#define WLINFO  WLOG(MLOG_WARN, file, function, line)
-#define WLWARN  WLOG(MLOG_ERROR, file, function, line)
-#define WLERROR WLOG(MLOG_FATAL, file, function, line)
+#define WLTRACE(file, line, function)     WLOG(MLOG_DEBUG, file, line, function)
+#define WLDEBUG(file, line, function)     WLOG(MLOG_INFO, file, line, function)
+#define WLINFO(file, line, function)      WLOG(MLOG_WARN, file, line, function)
+#define WLWARN(file, line, function)      WLOG(MLOG_ERROR, file, line, function)
+#define WLERROR(file, line, function)     WLOG(MLOG_FATAL, file, line, function)
 
 #endif

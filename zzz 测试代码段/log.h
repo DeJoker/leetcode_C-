@@ -11,7 +11,7 @@
 #include "config.h"
 #include "tools.h"
 
-typedef void(*LogCallback)(const std::string& str);
+typedef void(*LogCallback)(const char* file, int line, const char* function, const std::string& str);
 
 class Logger
 {
@@ -88,8 +88,9 @@ inline void SetLogCallBack(LogCallback cb)
 	Logger::getInstance().logCallback = cb;
 }
 
+#define Log(format, args...)  LogF(__FILE__, __LINE__, __FUNCTION__, format, ##args)
 
-inline int Log(const char *msg, ...)
+inline int LogF(const char* file, int line, const char* function, const char *msg, ...)
 {
 	if (Logger::IsLogEnabled())
 	{
@@ -118,7 +119,7 @@ inline int Log(const char *msg, ...)
 		std::string str(buf);
 		delete[] buf;
 
-		Logger::getInstance().logCallback(str);
+		Logger::getInstance().logCallback(file, line, function, str);
 	}
 	return 1;
 }
@@ -152,7 +153,7 @@ inline int Log2(const char* prefix,const char *msg, ...)
 		std::string str(buf);
 		delete[] buf;
 
-		Logger::getInstance().logCallback(str);
+		Logger::getInstance().logCallback(__FILE__, __LINE__, __FUNCTION__, str);
 	}
 	return 1;
 }
@@ -186,7 +187,7 @@ inline int UltraDebug(const char *msg, ...)
 		std::string str(buf);
 		delete[] buf;
 
-		Logger::getInstance().logCallback(str);
+		Logger::getInstance().logCallback(__FILE__, __LINE__, __FUNCTION__, str);
 	}
 	return 1;
 }
@@ -220,7 +221,7 @@ inline int Debug(const char *msg, ...)
 		std::string str(buf);
 		delete[] buf;
 
-		Logger::getInstance().logCallback(str);
+		Logger::getInstance().logCallback(__FILE__, __LINE__, __FUNCTION__, str);
 	}
 	return 1;
 }
@@ -252,7 +253,7 @@ inline int Error(const char *msg, ...)
 	std::string str(buf);
 	delete[] buf;
 
-	Logger::getInstance().logCallback(str);
+	Logger::getInstance().logCallback(__FILE__, __LINE__, __FUNCTION__, str);
 	return 0;
 }
 
