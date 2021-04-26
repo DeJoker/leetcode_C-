@@ -11,7 +11,7 @@
 #include "config.h"
 #include "tools.h"
 
-typedef void(*LogCallback)(const char* file, int line, const char* function, const std::string& str);
+typedef void(*LogCallback)(int level, const char* file, int line, const char* function, const std::string& str);
 
 class Logger
 {
@@ -88,9 +88,12 @@ inline void SetLogCallBack(LogCallback cb)
 	Logger::getInstance().logCallback = cb;
 }
 
-#define Log(format, args...)  LogF(__FILE__, __LINE__, __FUNCTION__, format, ##args)
+#define UltraDebug(format, args...)  LogF(0, __FILE__, __LINE__, __FUNCTION__, format, ##args)
+#define Debug(format, args...)  LogF(0, __FILE__, __LINE__, __FUNCTION__, format, ##args)
+#define Log(format, args...)  LogF(1, __FILE__, __LINE__, __FUNCTION__, format, ##args)
+#define Error(format, args...)  LogF(2, __FILE__, __LINE__, __FUNCTION__, format, ##args)
 
-inline int LogF(const char* file, int line, const char* function, const char *msg, ...)
+inline int LogF(int level, const char* file, int line, const char* function, const char *msg, ...)
 {
 	if (Logger::IsLogEnabled())
 	{
@@ -117,144 +120,17 @@ inline int LogF(const char* file, int line, const char* function, const char *ms
 			buf[0] = '\0';
 		}
 		std::string str(buf);
+		str.pop_back();
 		delete[] buf;
 
-		Logger::getInstance().logCallback(file, line, function, str);
+		Logger::getInstance().logCallback(level, file, line, function, str);
 	}
 	return 1;
 }
 
 inline int Log2(const char* prefix,const char *msg, ...)
 {
-	if (Logger::IsLogEnabled())
-	{
-		va_list argList;
-		int size(1024);
-		char* buf = new char[size+1];
-		while(size > 0 && size < 1024*1024*10)
-		{
-			va_start(argList, msg);
-			int len = vsnprintf(buf, size + 1, msg, argList);
-			va_end(argList);
-			if (len >= 0 && len <= size)
-			{
-				buf[len] = '\0';
-				break;
-			}
-			if(len < 0)
-				size *= 2;
-			else
-				size = len;
-
-			delete[] buf;
-			buf = new char[size + 1];
-			buf[0] = '\0';
-		}
-		std::string str(buf);
-		delete[] buf;
-
-		Logger::getInstance().logCallback(__FILE__, __LINE__, __FUNCTION__, str);
-	}
 	return 1;
-}
-
-inline int UltraDebug(const char *msg, ...)
-{
-	if (Logger::IsUltraDebugEnabled())
-	{
-		va_list argList;
-		int size(1024);
-		char* buf = new char[size+1];
-		while(size > 0 && size < 1024*1024*10)
-		{
-			va_start(argList, msg);
-			int len = vsnprintf(buf, size + 1, msg, argList);
-			va_end(argList);
-			if (len >= 0 && len <= size)
-			{
-				buf[len] = '\0';
-				break;
-			}
-			if(len < 0)
-				size *= 2;
-			else
-				size = len;
-
-			delete[] buf;
-			buf = new char[size + 1];
-			buf[0] = '\0';
-		}
-		std::string str(buf);
-		delete[] buf;
-
-		Logger::getInstance().logCallback(__FILE__, __LINE__, __FUNCTION__, str);
-	}
-	return 1;
-}
-
-inline int Debug(const char *msg, ...)
-{
-	if (Logger::IsDebugEnabled())
-	{
-		va_list argList;
-		int size(1024);
-		char* buf = new char[size+1];
-		while(size > 0 && size < 1024*1024*10)
-		{
-			va_start(argList, msg);
-			int len = vsnprintf(buf, size + 1, msg, argList);
-			va_end(argList);
-			if (len >= 0 && len <= size)
-			{
-				buf[len] = '\0';
-				break;
-			}
-			if(len < 0)
-				size *= 2;
-			else
-				size = len;
-
-			delete[] buf;
-			buf = new char[size + 1];
-			buf[0] = '\0';
-		}
-		std::string str(buf);
-		delete[] buf;
-
-		Logger::getInstance().logCallback(__FILE__, __LINE__, __FUNCTION__, str);
-	}
-	return 1;
-}
-
-inline int Error(const char *msg, ...)
-{
-	va_list argList;
-	int size(1024);
-	char* buf = new char[size+1];
-	while(size > 0 && size < 1024*1024*10)
-	{
-		va_start(argList, msg);
-		int len = vsnprintf(buf, size + 1, msg, argList);
-		va_end(argList);
-		if (len >= 0 && len <= size)
-		{
-			buf[len] = '\0';
-			break;
-		}
-		if(len < 0)
-			size *= 2;
-		else
-			size = len;
-
-		delete[] buf;
-		buf = new char[size + 1];
-		buf[0] = '\0';
-	}
-	std::string str(buf);
-	delete[] buf;
-
-	Logger::getInstance().logCallback(__FILE__, __LINE__, __FUNCTION__, str);
-	return 0;
 }
 
 inline void BitDump(DWORD val,BYTE n)

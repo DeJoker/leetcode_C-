@@ -7,10 +7,19 @@
 // Log Dump Dump4 用到了
 
 
-void LogWrapper(const char* file, int line, const char* function, const std::string& str) {
+void LogWrapper(int level, const char* file, int line, const char* function, const std::string& str) {
 	// WLOG(0, file, function, line) << str;
 
-	WLINFO(file, line, function) << str;
+    switch(level) {
+        case 0:
+            WLDEBUG(file, line, function) << str;
+            break;
+        case 2:
+            WLERROR(file, line, function) << str;
+            break;
+        default:
+	        WLINFO(file, line, function) << str;
+    }
 }
 
 
