@@ -104,4 +104,15 @@ private:
 #define LOG_ERROR slog::LogMessage(just_get_name(__FILE__), __LINE__, __FUNCTION__, MLOG_ERROR, GlobalVar<SLogCallBack>::VAR).stream()
 #define LOG_FATAL slog::LogMessage(just_get_name(__FILE__), __LINE__, __FUNCTION__, MLOG_FATAL, GlobalVar<SLogCallBack>::VAR).stream()
 
+
+// wrapper logger
+// #define WLOG(level, file, function, line) if (elog::GetLogLevel() <= level) slog::LogMessage(file, line, function, level)
+#define WLOG(level, file, function, line) slog::LogMessage(file, line, function, level)
+
+#define WLTRACE WLOG(MLOG_DEBUG, file, function, line)
+#define WLDEBUG WLOG(MLOG_INFO, file, function, line)
+#define WLINFO  WLOG(MLOG_WARN, file, function, line)
+#define WLWARN  WLOG(MLOG_ERROR, file, function, line)
+#define WLERROR WLOG(MLOG_FATAL, file, function, line)
+
 #endif
