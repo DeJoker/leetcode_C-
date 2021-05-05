@@ -10,7 +10,114 @@
 // 前导0问题
 
 // @lc code=start
+
+
+/*
+ * 输入:
+ *   0 : 空格
+ *   1 : 数字
+ *   2 : +/-
+ *   3 : e
+ *   4 : .
+ *   5 : 其他
+ * 状态：
+ *   0 : 初始状态
+ *   1 : 只有+/-
+ *   2 : 合法整数
+ *   3 : 指数等待输入指数部分
+ *   4 : 指数部分等待输入数字
+ *   5 : 合法指数
+ *   6 : 小数待输入小数部分
+ *   7 : 合法小数
+ *   8 : 合法结束状态，可以输入空格.
+ *   上述状态合法者，可以正确结束，否则以失败结束.
+ */
+
+
+// 用ascii画图也行  https://asciiflow.com/#/
+
+
+//                                                    ┌───────────────────────────────────┐  
+//    ┌─────────────────────────────┐                 ┌──────────────────│────────────────┐┌──────────────────────────┐
+// 初始状态 ──────  符号位 ────── 整数部分  ────── 小数点【有整数】 ──────  小数部分 ────── 字符e ────── 指数符号 ────── 指数部分
+//    │             │              └┘                │                     └┘                                         └┘
+//    └ ───── 小数点【无整数部分】─────────────────────┘
+
+// │── └┘┐┌
+// <>v^
+
+
+//  0 ms   5.9 MB
 class Solution {
+
+int fsm[9][6] = {
+    {0, 2, 1, -1, 6, -1},
+    {-1, 2, -1, -1, 6, -1},
+    {8, 2, -1, 3, 7, -1},
+    {-1, 5, 4, -1, -1, -1},
+    {-1, 5, -1, -1, -1, -1},
+    {8, 5, -1, -1, -1, -1},
+    {-1, 7, -1, -1, -1, -1},
+    {8, 7, -1, 3, -1, -1},
+    {8, -1, -1, -1, -1, -1},
+};
+
+bool final[9] = {false, false, true, false, false, true, false, true, true,};
+
+enum {
+    BLANK=0,
+    DIGIT=1,
+    SIGN=2,
+    E=3,
+    DOT=4,
+    OTHER=5, 
+};
+
+public:
+int convertInput(char c) {
+    switch (c) {
+      case ' ':
+        return 0;
+      case '+':
+      case '-':
+        return 2;
+      case 'e':
+      case 'E':
+        return 3;
+      case '.':
+        return 4;
+      default:
+        if (c >= '0' && c <= '9') {
+          return 1;
+        } else {
+          return 5;
+        }
+    }
+}
+
+bool isNumber(string s) {
+    if (s.empty()) {
+      return true;
+    }
+
+    int cur_state = 0;
+    for (int i = 0; i < (int)s.size(); ++i) {
+      int next_state = fsm[cur_state][convertInput(s[i])];
+      if (next_state == -1) {
+        return false;
+      } else {
+        cur_state = next_state;
+      }
+    }
+
+    return final[cur_state];
+}
+};
+
+
+
+
+class Solution333 {
 public:
     bool isNumber(string str) {
         if (str.empty()) return false;
