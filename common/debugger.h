@@ -2,7 +2,10 @@
 #define __DEBUGGER_H__
 
 // STL的所有头文件
+#ifdef __linux__
+//  gcc -dM -E - </dev/null | grep -i linux
 #include <bits/stdc++.h>
+#endif
 
 #include <limits.h>
 #include <vector>
