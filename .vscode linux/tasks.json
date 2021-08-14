@@ -1,0 +1,28 @@
+{
+    "tasks": [
+        {
+            "type": "shell",
+            "label": "build",
+            "command": "g++",
+            "args": [
+                "-g",
+                "${file}",
+                "-std=c++1z",
+                "-fsanitize=signed-integer-overflow",
+                "-fsanitize=address",
+                // "-fsanitize=undefined",
+                // "-fsanitize=thread",
+                // "-fno-omit-frame-pointer",
+                "-Werror",
+                "-Wreturn-type",
+                "-o",
+                "${workspaceFolder}/a.out"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+        }
+    ],
+    "version": "2.0.0"
+}
