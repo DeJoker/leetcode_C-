@@ -3,13 +3,17 @@
         {
             "type": "shell",
             "label": "build",
-            "command": "g++",
+            "command": "clang++",
             "args": [
                 "-g",
                 "${file}",
-                "-std=c++1z",
-                "-fsanitize=signed-integer-overflow",
-                "-fsanitize=address",
+                "-std=c++14",
+                "-fstandalone-debug", // clang++ 参数 
+                
+                // "-stdlib=libc++", // 找不到  #include <bits/stdc++.h>
+
+                // "-fsanitize=signed-integer-overflow",
+                // "-fsanitize=address",
                 // "-fsanitize=undefined",
                 // "-fsanitize=thread",
                 // "-fno-omit-frame-pointer",
@@ -21,7 +25,7 @@
             "group": {
                 "kind": "build",
                 "isDefault": true
-            }
+            },
         }
     ],
     "version": "2.0.0"

@@ -1,0 +1,6 @@
+{
+    "C_Cpp.default.cppStandard": "c++14",
+    "files.associations": {
+        "string": "cpp"
+    }
+}
